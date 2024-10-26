@@ -1,22 +1,39 @@
 package actions;
 
-public class PlayerTurn {
-	private final String command = "getPlayerTurn";
-	private int output;
+public final class PlayerTurn {
+    private static PlayerTurn instance;
 
-	public PlayerTurn (int output) {
-		this.output = output;
-	}
+    private final String command = "getPlayerTurn";
+    private int output;
 
-	public String getCommand() {
-		return command;
-	}
+    private PlayerTurn() {
+    }
 
-	public int getOutput() {
-		return output;
-	}
+    /**
+     * Make sure that this class is SingleTone.
+     */
+    public static PlayerTurn getInstance() {
+        if (instance == null) {
+            instance = new PlayerTurn();
+        }
 
-	public void setOutput(int output) {
-		this.output = output;
-	}
+        return instance;
+    }
+
+    /**
+     * Alternative to a constructor, without to break SingleTone rules.
+     */
+    public static PlayerTurn init(final int output) {
+        PlayerTurn playerTurn = getInstance();
+        playerTurn.output = output;
+        return playerTurn;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public int getOutput() {
+        return output;
+    }
 }

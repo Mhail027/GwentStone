@@ -109,24 +109,31 @@ public final class Action {
                 + '}';
     }
 
-    public void handle(Game currGame, ArrayNode output) {
+    /**
+     * Verify an action and ,if it is possible, do it in the current game.
+     * A message containing the result of the action is added in output.
+     */
+    public void handle(final Game currGame, final ArrayNode output) {
         ObjectMapper objectMaper = new ObjectMapper();
         JsonNode newNode = null;
 
-        switch(command) {
+        switch (command) {
             case "getPlayerDeck" :
                 ArrayList<GameCard> deck = currGame.getPlayer(playerIdx).getTableDeck();
-                newNode = objectMaper.valueToTree(new PlayerDeck(playerIdx, deck));
+                newNode = objectMaper.valueToTree(PlayerDeck.init(playerIdx, deck));
                 break;
 
             case "getPlayerHero" :
                 HeroCard hero = currGame.getPlayer(playerIdx).getHerro();
-                newNode = objectMaper.valueToTree(new PlayerHero(playerIdx, hero));
+                newNode = objectMaper.valueToTree(PlayerHero.init(playerIdx, hero));
                 break;
 
             case "getPlayerTurn":
                 int currPlayerIdx = currGame.getPlayerTurn();
-                newNode = objectMaper.valueToTree(new PlayerTurn(currPlayerIdx));
+                newNode = objectMaper.valueToTree(PlayerTurn.init(currPlayerIdx));
+                break;
+
+            default:
                 break;
         }
         output.add(newNode);

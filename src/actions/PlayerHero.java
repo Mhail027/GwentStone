@@ -1,35 +1,46 @@
 package actions;
 
-import cards.GameCard;
 import cards.HeroCard;
 
-public class PlayerHero {
-	private final String command = "getPlayerHero";
-	private int playerIdx;
-	private HeroCard output;
+public final class PlayerHero {
+    private static PlayerHero instance;
 
-	public PlayerHero (int playerIdx, HeroCard output) {
-		this.playerIdx = playerIdx;
-		this.output = output;
-	}
+    private final String command = "getPlayerHero";
+    private int playerIdx;
+    private HeroCard output;
 
-	public String getCommand() {
-		return command;
-	}
+    private PlayerHero() {
+    }
 
-	public int getPlayerIdx() {
-		return playerIdx;
-	}
+    /**
+     * Make sure that this class is SingleTone.
+     */
+    public static PlayerHero getInstance() {
+        if (instance == null) {
+            instance = new PlayerHero();
+        }
 
-	public void setPlayerIdx(int playerIdx) {
-		this.playerIdx = playerIdx;
-	}
+        return instance;
+    }
 
-	public HeroCard getOutput() {
-		return output;
-	}
+    /**
+     * Alternative to a constructor, without to break SingleTone rules.
+     */
+    public static PlayerHero init(final int playerIdx, final HeroCard output) {
+        PlayerHero playerHero = getInstance();
+        playerHero.playerIdx = playerIdx;
+        playerHero.output = output;
+        return playerHero;
+    }
 
-	public void setOutput(HeroCard output) {
-		this.output = output;
-	}
+    public String getCommand() {
+        return command;
+    }
+
+    public int getPlayerIdx() {
+        return playerIdx;
+    }
+    public HeroCard getOutput() {
+        return output;
+    }
 }

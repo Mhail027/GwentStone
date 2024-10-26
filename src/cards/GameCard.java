@@ -1,14 +1,12 @@
 package cards;
 
-import java.util.ArrayList;
-
-public class GameCard extends Card{
+public final class GameCard extends Card {
     private int attackDamage;
 
     public GameCard() {
     }
 
-    public GameCard(GameCard card) {
+    public GameCard(final GameCard card) {
         super(card);
         attackDamage = card.attackDamage;
     }

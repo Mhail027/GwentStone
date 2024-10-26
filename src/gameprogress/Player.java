@@ -5,64 +5,68 @@ import cards.HeroCard;
 
 import java.util.ArrayList;
 
-public class Player {
-	private int idx;
-	private int mana;
-	private ArrayList<GameCard> handDeck;
-	private ArrayList<GameCard> tableDeck;
-	private HeroCard herro;
+public final class Player {
+    private int idx;
+    private int mana;
+    private ArrayList<GameCard> handDeck;
+    private ArrayList<GameCard> tableDeck;
+    private HeroCard hero;
 
-	public Player(int idx, ArrayList<GameCard> tableDeck, HeroCard herro) {
-		this.idx = idx;
-		this.mana = 0;
-		this.handDeck = new ArrayList<>(0);
-		this.tableDeck = new ArrayList<>(0);
-		for (GameCard card : tableDeck)
-			this.tableDeck.add(new GameCard(card));
-		this.herro = herro;
-	}
+    public Player(final int idx, final ArrayList<GameCard> tableDeck, final HeroCard hero) {
+        this.idx = idx;
+        this.mana = 0;
+        this.handDeck = new ArrayList<>(0);
+        this.tableDeck = new ArrayList<>(0);
+        for (GameCard card : tableDeck) {
+            this.tableDeck.add(new GameCard(card));
+        }
+        this.hero = new HeroCard(hero);
+    }
 
-	public int getIdx() {
-		return idx;
-	}
+    public int getIdx() {
+        return idx;
+    }
 
-	public void setIdx(int idx) {
-		this.idx = idx;
-	}
+    public void setIdx(final int idx) {
+        this.idx = idx;
+    }
 
-	public int getMana() {
-		return mana;
-	}
+    public int getMana() {
+        return mana;
+    }
 
-	public void setMana(int mana) {
-		this.mana = mana;
-	}
+    public void setMana(final int mana) {
+        this.mana = mana;
+    }
 
-	public void addMana(int receivedMana) {
-		this.mana += receivedMana;
-	}
+    /**
+     * The player receives mana.
+     */
+    public void addMana(final int receivedMana) {
+        this.mana += receivedMana;
+    }
 
-	public ArrayList<GameCard> getHandDeck() {
-		return handDeck;
-	}
+    public ArrayList<GameCard> getHandDeck() {
+        return handDeck;
+    }
 
-	public void setHandDeck(ArrayList<GameCard> handDeck) {
-		this.handDeck = handDeck;
-	}
+    public void setHandDeck(final ArrayList<GameCard> handDeck) {
+        this.handDeck = handDeck;
+    }
 
-	public ArrayList<GameCard> getTableDeck() {
-		return tableDeck;
-	}
+    public ArrayList<GameCard> getTableDeck() {
+        return tableDeck;
+    }
 
-	public void setTableDeck(ArrayList<GameCard> tableDeck) {
-		this.tableDeck = tableDeck;
-	}
+    public void setTableDeck(final ArrayList<GameCard> tableDeck) {
+        this.tableDeck = tableDeck;
+    }
 
-	public HeroCard getHerro() {
-		return herro;
-	}
+    public HeroCard getHerro() {
+        return hero;
+    }
 
-	public void setHerro(HeroCard herro) {
-		this.herro = herro;
-	}
+    public void setHero(final HeroCard hero) {
+        this.hero = hero;
+    }
 }

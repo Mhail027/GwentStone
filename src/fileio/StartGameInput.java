@@ -1,6 +1,5 @@
 package fileio;
 
-import cards.GameCard;
 import cards.HeroCard;
 
 public final class StartGameInput {

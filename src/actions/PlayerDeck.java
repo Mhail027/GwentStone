@@ -4,33 +4,46 @@ import cards.GameCard;
 
 import java.util.ArrayList;
 
-public class PlayerDeck {
-	private final String command = "getPlayerDeck";
-	private int playerIdx;
-	private ArrayList <GameCard> output;
+public final class PlayerDeck {
+    private static PlayerDeck instance;
 
-	public PlayerDeck(int playerIdx, ArrayList<GameCard> output) {
-		this.playerIdx = playerIdx;
-		this.output = output;
-	}
+    private final String command = "getPlayerDeck";
+    private int playerIdx;
+    private ArrayList<GameCard> output;
 
-	public String getCommand() {
-		return command;
-	}
+    private PlayerDeck() {
+    }
 
-	public int getPlayerIdx() {
-		return playerIdx;
-	}
+    /**
+     * Make sure that this class is SingleTone.
+     */
+    public static PlayerDeck getInstance() {
+        if (instance == null) {
+            instance = new PlayerDeck();
+        }
 
-	public void setPlayerIdx(int playerIdx) {
-		this.playerIdx = playerIdx;
-	}
+        return instance;
+    }
 
-	public ArrayList<GameCard> getOutput() {
-		return output;
-	}
+    /**
+     * Alternative to a constructor, without to break SingleTone rules.
+     */
+    public static PlayerDeck init(final int playerIdx, final ArrayList<GameCard> output) {
+        PlayerDeck playerDeck = getInstance();
+        playerDeck.playerIdx = playerIdx;
+        playerDeck.output = output;
+        return playerDeck;
+    }
 
-	public void setOutput(ArrayList<GameCard> output) {
-		this.output = output;
-	}
+    public String getCommand() {
+        return command;
+    }
+
+    public int getPlayerIdx() {
+        return playerIdx;
+    }
+
+    public ArrayList<GameCard> getOutput() {
+        return output;
+    }
 }
