@@ -1,11 +1,13 @@
 package fileio;
 
+import cards.GameCard;
+
 import java.util.ArrayList;
 
 public final class DecksInput {
     private int nrCardsInDeck;
     private int nrDecks;
-    private ArrayList<ArrayList<CardInput>> decks;
+    private ArrayList<ArrayList<GameCard>> decks;
 
     public DecksInput() {
     }
@@ -26,11 +28,11 @@ public final class DecksInput {
         this.nrDecks = nrDecks;
     }
 
-    public ArrayList<ArrayList<CardInput>> getDecks() {
+    public ArrayList<ArrayList<GameCard>> getDecks() {
         return decks;
     }
 
-    public void setDecks(final ArrayList<ArrayList<CardInput>> decks) {
+    public void setDecks(final ArrayList<ArrayList<GameCard>> decks) {
         this.decks = decks;
     }
 

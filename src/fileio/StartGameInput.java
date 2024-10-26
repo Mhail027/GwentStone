@@ -1,11 +1,14 @@
 package fileio;
 
+import cards.GameCard;
+import cards.HeroCard;
+
 public final class StartGameInput {
     private int playerOneDeckIdx;
     private int playerTwoDeckIdx;
     private int shuffleSeed;
-    private CardInput playerOneHero;
-    private CardInput playerTwoHero;
+    private HeroCard playerOneHero;
+    private HeroCard playerTwoHero;
     private int startingPlayer;
 
     public StartGameInput() {
@@ -35,19 +38,19 @@ public final class StartGameInput {
         this.shuffleSeed = shuffleSeed;
     }
 
-    public CardInput getPlayerOneHero() {
+    public HeroCard getPlayerOneHero() {
         return playerOneHero;
     }
 
-    public void setPlayerOneHero(final CardInput playerOneHero) {
+    public void setPlayerOneHero(final HeroCard playerOneHero) {
         this.playerOneHero = playerOneHero;
     }
 
-    public CardInput getPlayerTwoHero() {
+    public HeroCard getPlayerTwoHero() {
         return playerTwoHero;
     }
 
-    public void setPlayerTwoHero(final CardInput playerTwoHero) {
+    public void setPlayerTwoHero(final HeroCard playerTwoHero) {
         this.playerTwoHero = playerTwoHero;
     }
 

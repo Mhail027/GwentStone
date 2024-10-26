@@ -1,11 +1,14 @@
 package main;
 
 import checker.Checker;
+import actions.Action;
+import gameprogress.Game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
+import fileio.GameInput;
 import fileio.Input;
 
 import java.io.File;
@@ -13,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -69,6 +73,15 @@ public final class Main {
 
         ArrayNode output = objectMapper.createArrayNode();
 
+        for (GameInput gameInputData : inputData.getGames()) {
+            Game currentGame = new Game(inputData, gameInputData.getStartGame());
+            ArrayList<Action> actions = gameInputData.getActions();
+
+           currentGame.startCurrRound();
+
+            for (Action action : actions)
+                action.handle(currentGame, output);
+        }
         /*
          * TODO Implement your function here
          *

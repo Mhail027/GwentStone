@@ -1,10 +1,12 @@
 package fileio;
 
+import actions.Action;
+
 import java.util.ArrayList;
 
 public final class GameInput {
         private StartGameInput startGame;
-        private ArrayList<ActionsInput> actions;
+        private ArrayList<Action> actions;
 
         public GameInput() {
         }
@@ -17,11 +19,11 @@ public final class GameInput {
                 this.startGame = startGame;
         }
 
-        public ArrayList<ActionsInput> getActions() {
+        public ArrayList<Action> getActions() {
                 return actions;
         }
 
-        public void setActions(final ArrayList<ActionsInput> actions) {
+        public void setActions(final ArrayList<Action> actions) {
                 this.actions = actions;
         }
 
