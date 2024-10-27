@@ -23,7 +23,7 @@ public final class Game {
 
     // We start the count from 1 for players.
     private Player[] players = new Player[NUMBER_OF_PLAYERS + 1];
-    private GameCard[][] table = new GameCard[NUMBER_OF_ROWS][NUMBER_OF_COLS];
+    private ArrayList<ArrayList<GameCard>> table;
 
     private Game() {
     }
@@ -73,6 +73,11 @@ public final class Game {
 
         ArrayList<GameCard> playerTwoDeck = players[2].getTableDeck();
         Collections.shuffle(playerTwoDeck, new Random(shuffleSeed));
+
+        // Create space to put the game table.
+        table = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_ROWS; ++i)
+            table.add(new ArrayList<>());
     }
 
     public int getPlayerTurn() {
@@ -84,6 +89,11 @@ public final class Game {
      */
     public Player getPlayer(final int idx) {
         return players[idx];
+
+    }
+
+    public ArrayList<ArrayList<GameCard>> getTable() {
+        return table;
     }
 
     /**
@@ -92,12 +102,12 @@ public final class Game {
      */
     public void startRound() {
         // Every player receives mana.
-        int receivedMana = (int) roundIdx;
+        int receivedMana = roundIdx;
         if (receivedMana > MAX_RECEIVED_MANA_PER_ROUND) {
             receivedMana = MAX_RECEIVED_MANA_PER_ROUND;
         }
-        players[1].addMana(receivedMana);
-        players[2].addMana(receivedMana);
+        players[1].receivesMana(receivedMana);
+        players[2].receivesMana(receivedMana);
 
         // Everyone draws a card from his table deck, if he can.
         for (int i = 1; i <= 2; ++i) {
@@ -122,7 +132,49 @@ public final class Game {
 
         // Verify if we must start a new round.
         if (playerTurn == firstPlayerOfRound) {
+            roundIdx++;
             startRound();
         }
+    }
+
+    public int placeCard(final int cardIdx) {
+        // Verify if the cardIdx is valid.
+        int cardsInHand = players[playerTurn].getHandDeck().size();
+        if (cardIdx >= cardsInHand) {
+            return 1;
+        }
+
+        // Take the wanted card from handDeck.
+        GameCard card = players[playerTurn].getHandDeck().get(cardIdx);
+
+        // Verify if we have enough mana for this card.
+        if (card.getMana() > players[playerTurn].getMana()) {
+            return 2;
+        }
+
+        // Verify if it's space on the row.
+        int rowIdx = findRowForCard(playerTurn, card.getName());
+        if (table.get(rowIdx).size() >= NUMBER_OF_COLS) {
+            return 3;
+        }
+
+        // Place the card on table.
+        players[playerTurn].getHandDeck().remove(cardIdx);
+        table.get(rowIdx).add(card);
+        players[playerTurn].usesMana(card.getMana());
+
+        return 0;
+    }
+
+    private int findRowForCard(final int playerIdx, final String cardName) {
+
+        if (cardName.equals("Sentinel") || cardName.equals("Berserker")) {
+            return (playerIdx == 1) ? 3 : 0;
+        }
+        if (cardName.equals("The Cursed One") || cardName.equals("Disciple")) {
+            return (playerIdx == 1) ? 3 : 0;
+        }
+
+        return (playerIdx == 1) ? 2 : 1;
     }
 }

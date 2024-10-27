@@ -1,7 +1,7 @@
 package main;
 
 import checker.Checker;
-import actions.Action;
+import gameprogress.Action;
 import gameprogress.Game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

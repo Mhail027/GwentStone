@@ -1,4 +1,4 @@
-package actions;
+package gameprogress;
 
 import cards.HeroCard;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import cards.GameCard;
 import fileio.Coordinates;
-import gameprogress.Game;
+import output.*;
+import output.error.CardPlacement;
 
 import java.util.ArrayList;
 
@@ -111,7 +112,8 @@ public final class Action {
 
     /**
      * Verify an action and ,if it is possible, do it in the current game.
-     * A message containing the result of the action is added in output.
+     * A message containing the result of the action is added in output,
+     * if it's the case.
      */
     public void handle(final Game currGame, final ArrayNode output) {
         ObjectMapper objectMaper = new ObjectMapper();
@@ -119,8 +121,13 @@ public final class Action {
 
         switch (command) {
             case "getPlayerDeck" :
-                ArrayList<GameCard> deck = currGame.getPlayer(playerIdx).getTableDeck();
-                newNode = objectMaper.valueToTree(PlayerDeck.init(playerIdx, deck));
+                ArrayList<GameCard> tableDeck = currGame.getPlayer(playerIdx).getTableDeck();
+                newNode = objectMaper.valueToTree(PlayerDeck.init(command, playerIdx, tableDeck));
+                break;
+
+            case "getCardsInHand":
+                ArrayList<GameCard> handDeck = currGame.getPlayer(playerIdx).getHandDeck();
+                newNode = objectMaper.valueToTree(PlayerDeck.init(command, playerIdx, handDeck));
                 break;
 
             case "getPlayerHero" :
@@ -128,15 +135,38 @@ public final class Action {
                 newNode = objectMaper.valueToTree(PlayerHero.init(playerIdx, hero));
                 break;
 
+            case "getCardsOnTable" :
+                ArrayList<ArrayList<GameCard>> table = currGame.getTable();
+                newNode = objectMaper.valueToTree(GameTable.init(table));
+                break;
+
             case "getPlayerTurn":
                 int currPlayerIdx = currGame.getPlayerTurn();
-                newNode = objectMaper.valueToTree(PlayerTurn.init(currPlayerIdx));
+                newNode = objectMaper.valueToTree(GameStat.init(command,currPlayerIdx));
+                break;
+
+            case "getPlayerMana":
+                int mana = currGame.getPlayer(playerIdx).getMana();
+                newNode = objectMaper.valueToTree(PlayerStat.init(command, playerIdx, mana));
+                break;
+
+            case "endPlayerTurn":
+                currGame.goNextTurn();
+                break;
+
+            case "placeCard":
+                int status = currGame.placeCard(handIdx);
+                if (status != 0) {
+                    newNode = objectMaper.valueToTree(CardPlacement.init(handIdx, status));
+                }
                 break;
 
             default:
                 break;
         }
-        output.add(newNode);
+
+        if (newNode != null)
+            output.add(newNode);
 
     }
 

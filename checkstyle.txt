@@ -1,2 +1,17 @@
 Starting audit...
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/output/PlayerDeck.java:31: Line is longer than 100 characters (found 112). [LineLength]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/output/error/CardPlacement.java:4:19: 'static' modifier out of order with the JLS suggestions. [ModifierOrder]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/output/error/CardPlacement.java:4:35: Name 'errors' must match pattern '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'. [ConstantName]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/output/error/CardPlacement.java:34:67: Name 'error_code' must match pattern '^[a-z][a-zA-Z0-9]*$'. [ParameterName]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:79:9: 'for' construct must use '{}'s. [NeedBraces]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:140:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:158:20: '3' is a magic number. [MagicNumber]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:172:39: '3' is a magic number. [MagicNumber]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:175:39: '3' is a magic number. [MagicNumber]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Player.java:45:40: 'mana' hides a field. [HiddenField]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Player.java:52:36: 'mana' hides a field. [HiddenField]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Action.java:9:14: Using the '.*' form of import should be avoided - output.*. [AvoidStarImport]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Action.java:145:72: ',' is not followed by whitespace. [WhitespaceAfter]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Action.java:168:9: 'if' construct must use '{}'s. [NeedBraces]
 Audit done.
+Checkstyle ends with 14 errors.

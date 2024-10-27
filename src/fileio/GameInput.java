@@ -1,6 +1,6 @@
 package fileio;
 
-import actions.Action;
+import gameprogress.Action;
 
 import java.util.ArrayList;
 

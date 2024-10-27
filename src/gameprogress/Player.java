@@ -42,8 +42,15 @@ public final class Player {
     /**
      * The player receives mana.
      */
-    public void addMana(final int receivedMana) {
-        this.mana += receivedMana;
+    public void receivesMana(final int mana) {
+        this.mana += mana;
+    }
+
+    /**
+     * The player spends mana.
+     */
+    public void usesMana(final int mana) {
+        this.mana -= mana;
     }
 
     public ArrayList<GameCard> getHandDeck() {

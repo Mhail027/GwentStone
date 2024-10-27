@@ -1,4 +1,4 @@
-package actions;
+package output;
 
 import cards.GameCard;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public final class PlayerDeck {
     private static PlayerDeck instance;
 
-    private final String command = "getPlayerDeck";
+    private String command = "getPlayerDeck";
     private int playerIdx;
     private ArrayList<GameCard> output;
 
@@ -28,10 +28,13 @@ public final class PlayerDeck {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static PlayerDeck init(final int playerIdx, final ArrayList<GameCard> output) {
+    public static PlayerDeck init(final String command, final int playerIdx, final ArrayList<GameCard> output) {
         PlayerDeck playerDeck = getInstance();
+
+        playerDeck.command = command;
         playerDeck.playerIdx = playerIdx;
         playerDeck.output = output;
+
         return playerDeck;
     }
 

@@ -1,4 +1,4 @@
-package actions;
+package output;
 
 import cards.HeroCard;
 
