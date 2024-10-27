@@ -2,10 +2,11 @@ package gameprogress;
 
 import cards.GameCard;
 import cards.HeroCard;
-import fileio.Input;
-import fileio.StartGameInput;
+import input.Input;
+import input.StartGameInput;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -20,8 +21,6 @@ public final class Game {
     private int roundIdx;
     private int playerTurn;
     private int firstPlayerOfRound;
-
-    // We start the count from 1 for players.
     private Player[] players = new Player[NUMBER_OF_PLAYERS + 1];
     private ArrayList<ArrayList<GameCard>> table;
 
@@ -80,16 +79,16 @@ public final class Game {
         return playerTurn;
     }
 
+    public ArrayList<ArrayList<GameCard>> getTable() {
+        return table;
+    }
+
     /**
      * Return the player which has the given idx.
      */
     public Player getPlayer(final int idx) {
         return players[idx];
 
-    }
-
-    public ArrayList<ArrayList<GameCard>> getTable() {
-        return table;
     }
 
     /**
@@ -129,7 +128,7 @@ public final class Game {
     private void everyCardCanAttack() {
         for (ArrayList<GameCard> row : table) {
             for (GameCard card : row) {
-                card.setUsedAtack(0);
+                card.setUsedAttack(0);
             }
         }
     }
@@ -138,6 +137,7 @@ public final class Game {
      * The turn of current player ends.
      */
     public void goNextTurn() {
+        // Go at next person.
         playerTurn += 1;
         if (playerTurn > NUMBER_OF_PLAYERS) {
             playerTurn = 1;
@@ -193,24 +193,25 @@ public final class Game {
 
     public int cardUsesAttack(Coordinates attacker, Coordinates attacked) {
         // Verify if the attacker is a card of the current player.
-        if (tableCardBelongsToPerson(attacker, playerTurn) == 0) {
+        if (!tableCardBelongsToPerson(attacker, playerTurn)) {
             return 1;
         }
 
-        // Verify if the attacked is a card of th eopponent.
+        // Verify if the attacked is a card of the opponent.
         int opponentIdx = playerTurn % 2 + 1;
-        if (tableCardBelongsToPerson(attacked, opponentIdx) == 0) {
+        if (!tableCardBelongsToPerson(attacked, opponentIdx)) {
             return 2;
         }
+
         // Take the attacker card.
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
 
         // Verify if the card didn't attack already in this round.
-        if (attackerCard.getUsedAtack() == 1) {
+        if (attackerCard.getUsedAttack() == 1) {
             return 3;
         }
 
-        // Vereify if the atacker is not frozen.
+        // Verify if the attacker is not frozen.
         if (attackerCard.getFrozen() == 1) {
             return 4;
         }
@@ -220,10 +221,8 @@ public final class Game {
 
         // If attacked card is not a tank, verify if there's a tank of front row of opponent.
         if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
-            int opponentFrontRow = (playerTurn == 1) ? 2 : 0;
-            for (GameCard card : table.get(opponentFrontRow)) {
-                if (card.getName().equals("Goliath") || card.getName().equals("Warden"))
-                    return 5;
+            if (playerHasTanks(opponentIdx)) {
+                return 5;
             }
         }
 
@@ -232,27 +231,44 @@ public final class Game {
         if (attackedCard.getHealth() <= 0) {
             table.get(attacked.getX()).remove(attacked.getY());
         }
+
         return 0;
     }
 
-    private int tableCardBelongsToPerson(Coordinates card, int personIdx) {
-        if (card.getX() < 0 || card.getY() < 0)
-            return 0;
-        if (personIdx == 1 && card.getX() != 3 && card.getX() != 2) {
-                return 0;
-        }
-        if (personIdx == 2 && card.getX() != 1 && card.getX() != 0) {
-                return 0;
-        }
-        if (card.getY() >= table.get(card.getX()).size()) {
-            return 0;
+    private boolean playerHasTanks(final int personIdx) {
+        int playerFrontRow = (personIdx == 1) ? 2 : 1;
+        for (GameCard card : table.get(playerFrontRow)) {
+            if (card.getName().equals("Goliath") || card.getName().equals("Warden")) {
+                return true;
+            }
         }
 
-        return 1;
+        return false;
+    }
+
+    private boolean tableCardBelongsToPerson(final Coordinates card, final int personIdx) {
+        // Coordinates must be positive or 0.
+        if (card.getX() < 0 || card.getY() < 0)
+            return false;
+
+        // Verify if the card is on a correct row.
+        if (personIdx == 1 && card.getX() != 3 && card.getX() != 2) {
+                return false;
+        }
+        if (personIdx == 2 && card.getX() != 1 && card.getX() != 0) {
+                return false;
+        }
+
+        // Verify if at the given position exists a card.
+        if (card.getY() >= table.get(card.getX()).size()) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean coordinatesAreValid(Coordinates card) {
-        return ((tableCardBelongsToPerson(card, 1) == 1 || tableCardBelongsToPerson(card, 2) == 1));
+        return ((tableCardBelongsToPerson(card, 1) || tableCardBelongsToPerson(card, 2)));
     }
 
     public GameCard getCard(Coordinates position) {
@@ -260,5 +276,76 @@ public final class Game {
             return table.get(position.getX()).get(position.getY());
         }
         return null;
+    }
+
+    public int cardUsesAbility(Coordinates attacker, Coordinates attacked) {
+        // Verify if the coordinates are valid.
+        if (!coordinatesAreValid(attacker) || ! coordinatesAreValid(attacked)) {
+            return 6;
+        }
+
+        // Take the attacker card.
+        GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
+
+        // Verify if the attacker is a special card.
+        if (!attackerCard.getName().equals("The Ripper") && !attackerCard.getName().equals("Miraj") &&
+        !attackerCard.getName().equals("The Cursed One") && !attackerCard.getName().equals("Disciple")) {
+            return 7;
+        }
+
+        // Verify if the attacker is not frozen.
+        if (attackerCard.getFrozen() == 1) {
+            return 4;
+        }
+
+        // Verify if the card didn't attack already in this round.
+        if (attackerCard.getUsedAttack() == 1) {
+            return 3;
+        }
+
+        // Take the attacker card.
+        GameCard attackedCard = table.get(attacked.getX()).get(attacked.getY());
+
+        // Verify if the attacker is Disciple.
+        if (attackerCard.getName().equals("Disciple")) {
+            // Verify if the attacked is a card of the current player.
+            if (!tableCardBelongsToPerson(attacked, playerTurn)) {
+                return 8;
+            }
+            attackerCard.useDiscipleAbility(attackedCard);
+            return 0;
+        }
+
+        // Verify if the attacked is a card of opponent.
+        int opponentIdx = playerTurn % 2 + 1;
+        if (!tableCardBelongsToPerson(attacked, opponentIdx)) {
+            return 2;
+        }
+
+        // If attacked card is not a tank, verify if there's a tank of front row of opponent.
+        if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
+            if (playerHasTanks(opponentIdx)) {
+                return 5;
+            }
+        }
+
+        // Verify if the attacker is The Ripper.
+        if (attackerCard.getName().equals("The Ripper")) {
+            attackerCard.useTheRipperAbility(attackedCard);
+            return 0;
+        }
+
+        // Verify if the attacker is Miraj.
+        if (attackerCard.getName().equals("Miraj")) {
+            attackerCard.useMirajAbility(attackedCard);
+            return 0;
+        }
+
+        // If we get here, the attacker is The Cursed One.
+        attackerCard.useTheCursedOneAbility(attackedCard);
+        if (attackedCard.getHealth() == 0) {
+            table.get(attacked.getX()).remove(attacked.getY());
+        }
+        return 0;
     }
 }

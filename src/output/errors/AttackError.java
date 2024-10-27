@@ -1,29 +1,32 @@
 package output.errors;
 
-public final class CardAttack {
+public final class AttackError {
     private final static String[] errors = {
             null,
             "Attacker card does not belong to the current player.",
             "Attacked card does not belong to the enemy.",
             "Attacker card has already attacked this turn.",
             "Attacker card is frozen.",
-            "Attacked card is not of type 'Tank’."
+            "Attacked card is not of type 'Tank’.",
+            "The coordinates of the cards are worng",
+            "Attacker must be a special card.",
+            "Attacked card does not belong to the current player."
     };
 
-    private static CardAttack instance;
+    private static AttackError instance;
 
-    private final String command = "placeCard";
+    private String command;
     private String error;
 
-    private CardAttack() {
+    private AttackError() {
     }
 
     /**
      * Make sure that this class is SingleTone.
      */
-    public static CardAttack getInstance() {
+    public static AttackError getInstance() {
         if (instance == null) {
-            instance = new CardAttack();
+            instance = new AttackError();
         }
 
         return instance;
@@ -32,12 +35,13 @@ public final class CardAttack {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static CardAttack init(final int error_code) {
-        CardAttack object = getInstance();
+    public static AttackError init(final String command, final int error_code) {
+        AttackError o = getInstance();
 
-        object.error = errors[error_code];
+        o.command = command;
+        o.error = errors[error_code];
 
-        return object;
+        return o;
     }
 
     public String getCommand() {

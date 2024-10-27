@@ -1,20 +1,20 @@
 package output;
 
-public final class GameStat {
-    private static GameStat instance;
+public final class GameStatOutput {
+    private static GameStatOutput instance;
 
     private String command;
     private Object output;
 
-    private GameStat() {
+    private GameStatOutput() {
     }
 
     /**
      * Make sure that this class is SingleTone.
      */
-    public static GameStat getInstance() {
+    public static GameStatOutput getInstance() {
         if (instance == null) {
-            instance = new GameStat();
+            instance = new GameStatOutput();
         }
 
         return instance;
@@ -23,13 +23,13 @@ public final class GameStat {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static GameStat init(final String command, final Object output) {
-        GameStat gameStat = getInstance();
+    public static GameStatOutput init(final String command, final Object output) {
+        GameStatOutput o = getInstance();
 
-        gameStat.command = command;
-        gameStat.output = output;
+        o.command = command;
+        o.output = output;
 
-        return gameStat;
+        return o;
     }
 
     public String getCommand() {

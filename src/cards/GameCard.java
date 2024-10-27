@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public final class GameCard extends Card {
     private int attackDamage;
     @JsonIgnore
-    private int usedAtack = 0;
+    private int usedAttack = 0;
     @JsonIgnore
     private int frozen = 0;
 
@@ -15,7 +15,7 @@ public final class GameCard extends Card {
     public GameCard(final GameCard card) {
         super(card);
         attackDamage = card.attackDamage;
-        usedAtack = card.usedAtack;
+        usedAttack = card.usedAttack;
         frozen = card.frozen;
     }
 
@@ -27,12 +27,12 @@ public final class GameCard extends Card {
         this.attackDamage = attackDamage;
     }
 
-    public int getUsedAtack() {
-        return usedAtack;
+    public int getUsedAttack() {
+        return usedAttack;
     }
 
-    public void setUsedAtack(int usedAtack) {
-        this.usedAtack = usedAtack;
+    public void setUsedAttack(int usedAtack) {
+        this.usedAttack = usedAtack;
     }
 
     public int getFrozen() {
@@ -63,4 +63,28 @@ public final class GameCard extends Card {
                 + '\''
                 + '}';
     }
+
+    public void useDiscipleAbility(GameCard card) {
+        card.health += 2;
+    }
+
+    public void useTheRipperAbility(GameCard card) {
+        card.attackDamage -= 2;
+        if (card.attackDamage < 0) {
+            card.attackDamage = 0;
+        }
+    }
+
+    public void useMirajAbility(GameCard card) {
+        int tmp = card.health;
+        card.health = health;
+        health = tmp;
+    }
+
+    public void useTheCursedOneAbility(GameCard card) {
+        int newAttackDamage = card.health;
+        card.health = card.attackDamage;
+        card.attackDamage = newAttackDamage;
+    }
+
 }

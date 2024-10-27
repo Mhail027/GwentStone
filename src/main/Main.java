@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
-import fileio.GameInput;
-import fileio.Input;
+import input.GameInput;
+import input.Input;
 
 import java.io.File;
 import java.io.IOException;

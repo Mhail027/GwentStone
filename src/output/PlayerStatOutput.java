@@ -1,21 +1,21 @@
 package output;
 
-public final class PlayerStat {
-    private static PlayerStat instance;
+public final class PlayerStatOutput {
+    private static PlayerStatOutput instance;
 
     private String command;
     private int playerIdx;
     private Object output;
 
-    private PlayerStat() {
+    private PlayerStatOutput() {
     }
 
     /**
      * Make sure that this class is SingleTone.
      */
-    public static PlayerStat getInstance() {
+    public static PlayerStatOutput getInstance() {
         if (instance == null) {
-            instance = new PlayerStat();
+            instance = new PlayerStatOutput();
         }
 
         return instance;
@@ -24,14 +24,14 @@ public final class PlayerStat {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static PlayerStat init(final String command, final int playerIdx, final Object output) {
-        PlayerStat playerStat = getInstance();
+    public static PlayerStatOutput init(final String command, final int playerIdx, final Object output) {
+        PlayerStatOutput o = getInstance();
 
-        playerStat.command = command;
-        playerStat.playerIdx = playerIdx;
-        playerStat.output = output;
+        o.command = command;
+        o.playerIdx = playerIdx;
+        o.output = output;
 
-        return playerStat;
+        return o;
     }
 
     public String getCommand() {

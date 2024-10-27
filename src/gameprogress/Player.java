@@ -4,6 +4,7 @@ import cards.GameCard;
 import cards.HeroCard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class Player {
     private int idx;
@@ -16,11 +17,15 @@ public final class Player {
         this.idx = idx;
         this.mana = 0;
         this.handDeck = new ArrayList<>(0);
-        this.tableDeck = new ArrayList<>(0);
-        for (GameCard card : tableDeck) {
-            this.tableDeck.add(new GameCard(card));
-        }
+        this.createTableDeck(tableDeck);
         this.hero = new HeroCard(hero);
+    }
+
+    private void createTableDeck(ArrayList<GameCard> deck) {
+        tableDeck = new ArrayList<>(0);
+        for (GameCard card : deck) {
+            tableDeck.add(new GameCard(card));
+        }
     }
 
     public int getIdx() {
@@ -57,23 +62,12 @@ public final class Player {
         return handDeck;
     }
 
-    public void setHandDeck(final ArrayList<GameCard> handDeck) {
-        this.handDeck = handDeck;
-    }
-
     public ArrayList<GameCard> getTableDeck() {
         return tableDeck;
-    }
-
-    public void setTableDeck(final ArrayList<GameCard> tableDeck) {
-        this.tableDeck = tableDeck;
     }
 
     public HeroCard getHerro() {
         return hero;
     }
 
-    public void setHero(final HeroCard hero) {
-        this.hero = hero;
-    }
 }

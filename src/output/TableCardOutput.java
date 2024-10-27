@@ -1,22 +1,22 @@
 package output;
 
-public final class CardAtPosition {
-    private static CardAtPosition instance;
+public final class TableCardOutput {
+    private static TableCardOutput instance;
 
     private final String command = "getCardAtPosition";
     private int x;
     private int y;
     private Object output;
 
-    private CardAtPosition() {
+    private TableCardOutput() {
     }
 
     /**
      * Make sure that this class is SingleTone.
      */
-    public static CardAtPosition getInstance() {
+    public static TableCardOutput getInstance() {
         if (instance == null) {
-            instance = new CardAtPosition();
+            instance = new TableCardOutput();
         }
 
         return instance;
@@ -25,8 +25,8 @@ public final class CardAtPosition {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static CardAtPosition init(int x ,int y, final Object output) {
-        CardAtPosition o = getInstance();
+    public static TableCardOutput init(int x , int y, final Object output) {
+        TableCardOutput o = getInstance();
 
         o.x = x;
         o.y = y;

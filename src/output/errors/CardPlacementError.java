@@ -1,6 +1,6 @@
 package output.errors;
 
-public final class CardPlacement {
+public final class CardPlacementError {
     private final static String[] errors = {
             null,
             "Number of card is bigger than number of cards from hand.",
@@ -8,21 +8,21 @@ public final class CardPlacement {
             "Cannot place card on table since row is full."
     };
 
-    private static CardPlacement instance;
+    private static CardPlacementError instance;
 
     private final String command = "placeCard";
     private int handIdx;
     private String error;
 
-    private CardPlacement() {
+    private CardPlacementError() {
     }
 
     /**
      * Make sure that this class is SingleTone.
      */
-    public static CardPlacement getInstance() {
+    public static CardPlacementError getInstance() {
         if (instance == null) {
-            instance = new CardPlacement();
+            instance = new CardPlacementError();
         }
 
         return instance;
@@ -31,13 +31,13 @@ public final class CardPlacement {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static CardPlacement init(final int handIdx, final int error_code) {
-        CardPlacement object = getInstance();
+    public static CardPlacementError init(final int handIdx, final int error_code) {
+        CardPlacementError o = getInstance();
 
-        object.handIdx = handIdx;
-        object.error = errors[error_code];
+        o.handIdx = handIdx;
+        o.error = errors[error_code];
 
-        return object;
+        return o;
     }
 
     public String getCommand() {
