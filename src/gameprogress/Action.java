@@ -8,6 +8,7 @@ import cards.GameCard;
 import output.*;
 import output.errors.AttackError;
 import output.errors.CardPlacementError;
+import output.errors.HeroAbilityError;
 
 import java.util.ArrayList;
 
@@ -132,7 +133,7 @@ public final class Action {
                 break;
 
             case "getPlayerHero" :
-                HeroCard hero = currGame.getPlayer(playerIdx).getHerro();
+                HeroCard hero = currGame.getPlayer(playerIdx).getHero();
                 newNode = objectMaper.valueToTree(PlayerStatOutput.init(command, playerIdx, hero));
                 break;
 
@@ -169,6 +170,29 @@ public final class Action {
                 }
                 break;
 
+            case "cardUsesAbility":
+                status = currGame.cardUsesAbility(cardAttacker, cardAttacked);
+                if (status != 0) {
+                    newNode = objectMaper.valueToTree(AttackError.init(command, status));
+                }
+                break;
+
+            case "useAttackHero":
+                status = currGame.useAttackOnHero(cardAttacker);
+                if (status == 99) {
+                    newNode = objectMaper.valueToTree(EndGameOutput.init(currGame.getPlayerTurn()));
+                } else if (status != 0) {
+                    newNode = objectMaper.valueToTree(AttackError.init(command, status));
+                }
+                break;
+
+            case "useHeroAbility":
+                status = currGame.useHeroAbility(affectedRow);
+                if (status != 0) {
+                    newNode = objectMaper.valueToTree(HeroAbilityError.init(command, affectedRow, status));
+                }
+                break;
+
             case "getCardAtPosition":
                 GameCard card = currGame.getCard(new Coordinates(x, y));
                 if (card == null) {
@@ -179,9 +203,13 @@ public final class Action {
                 }
                 break;
 
-            case "cardUsesAbility":
-                status = currGame.cardUsesAbility(cardAttacker, cardAttacked);
+            case  "getFrozenCardsOnTable":
+                ArrayList<GameCard> frozenCards = currGame.getFrozenCards();
+                newNode = objectMaper.valueToTree(GameStatOutput.init(command,frozenCards));
                 break;
+
+
+
 
 
 

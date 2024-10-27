@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public final class GameCard extends Card {
     private int attackDamage;
     @JsonIgnore
-    private int usedAttack = 0;
-    @JsonIgnore
     private int frozen = 0;
 
     public GameCard() {
@@ -15,7 +13,6 @@ public final class GameCard extends Card {
     public GameCard(final GameCard card) {
         super(card);
         attackDamage = card.attackDamage;
-        usedAttack = card.usedAttack;
         frozen = card.frozen;
     }
 
@@ -25,14 +22,6 @@ public final class GameCard extends Card {
 
     public void setAttackDamage(final int attackDamage) {
         this.attackDamage = attackDamage;
-    }
-
-    public int getUsedAttack() {
-        return usedAttack;
-    }
-
-    public void setUsedAttack(int usedAtack) {
-        this.usedAttack = usedAtack;
     }
 
     public int getFrozen() {
@@ -85,6 +74,14 @@ public final class GameCard extends Card {
         int newAttackDamage = card.health;
         card.health = card.attackDamage;
         card.attackDamage = newAttackDamage;
+    }
+
+    public void addAttackDamage(final int Attackdamage) {
+        this.attackDamage += Attackdamage;
+    }
+
+    public void addHealth(final int health) {
+        this.health += health;
     }
 
 }

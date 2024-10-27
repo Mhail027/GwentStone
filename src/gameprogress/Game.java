@@ -6,7 +6,6 @@ import input.Input;
 import input.StartGameInput;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -131,12 +130,28 @@ public final class Game {
                 card.setUsedAttack(0);
             }
         }
+
+        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
+            players[i].getHero().setUsedAttack(0);
+        }
     }
 
     /**
      * The turn of current player ends.
      */
     public void goNextTurn() {
+        // Unfreeze the cards of current player.
+        int startRow = 0;
+        if (playerTurn == 1) {
+            startRow = 2;
+        }
+        for (int i = startRow; i <= startRow + 1; ++i) {
+            ArrayList<GameCard> row = table.get(i);
+            for (GameCard card : row) {
+                card.setFrozen(0);
+            }
+        }
+
         // Go at next person.
         playerTurn += 1;
         if (playerTurn > NUMBER_OF_PLAYERS) {
@@ -228,6 +243,7 @@ public final class Game {
 
         // The attack takes place.
         attackedCard.decreaseHealth(attackerCard.getAttackDamage());
+        attackerCard.setUsedAttack(1);
         if (attackedCard.getHealth() <= 0) {
             table.get(attacked.getX()).remove(attacked.getY());
         }
@@ -303,7 +319,7 @@ public final class Game {
             return 3;
         }
 
-        // Take the attacker card.
+        // Take the attacked card.
         GameCard attackedCard = table.get(attacked.getX()).get(attacked.getY());
 
         // Verify if the attacker is Disciple.
@@ -313,6 +329,7 @@ public final class Game {
                 return 8;
             }
             attackerCard.useDiscipleAbility(attackedCard);
+            attackerCard.setUsedAttack(1);
             return 0;
         }
 
@@ -322,12 +339,14 @@ public final class Game {
             return 2;
         }
 
-        // If attacked card is not a tank, verify if there's a tank of front row of opponent.
+        // If attacked card is not a tank, verify if there's a tank on front row of opponent.
         if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
             if (playerHasTanks(opponentIdx)) {
                 return 5;
             }
         }
+
+        attackerCard.setUsedAttack(1);
 
         // Verify if the attacker is The Ripper.
         if (attackerCard.getName().equals("The Ripper")) {
@@ -348,4 +367,106 @@ public final class Game {
         }
         return 0;
     }
+
+    public int useAttackOnHero(Coordinates attacker) {
+        // Verify if the coordinates are valid.
+        if (!coordinatesAreValid(attacker)) {
+            return 6;
+        }
+
+        // Take the attacker card.
+        GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
+
+        // Verify if the attacker is not frozen.
+        if (attackerCard.getFrozen() == 1) {
+            return 4;
+        }
+
+        // Verify if the card didn't attack already in this round.
+        if (attackerCard.getUsedAttack() == 1) {
+            return 3;
+        }
+
+        // Verify if there's a tank on front row of the opponent.
+        int opponentIdx = playerTurn % 2 + 1;
+        if (playerHasTanks(opponentIdx)) {
+            return 5;
+        }
+
+        // Get the hero of the opponent.
+        HeroCard opponentHero = players[opponentIdx].getHero();
+
+        // The attack can take place.
+        opponentHero.decreaseHealth(attackerCard.getAttackDamage());
+
+        if (opponentHero.getHealth() <= 0) {
+            return 99; //gg
+        }
+
+        return 0;
+    }
+
+    public int useHeroAbility(final int affectedRow) {
+        // Get the herro card.
+        HeroCard hero = players[playerTurn].getHero();
+
+        // Verify if the current player has enough mana to use the hero ability.
+        if (hero.getMana() > players[playerTurn].getMana()) {
+            return 1;
+        }
+
+        // Verify if the card didn't attack already in this round.
+        if (hero.getUsedAttack() == 1) {
+            return 2;
+        }
+
+        // Verify if the hero acts on his friends.
+        if (hero.getName().equals("General Kocioraw") || hero.getName().equals("King Mudface")) {
+            // Verify if the selected row is valid.
+            if ((playerTurn == 1 && affectedRow < 2) || (playerTurn == 2 && affectedRow > 1)){
+                return 3;
+            }
+
+            if (hero.getName().equals("General Kocioraw")) {
+                hero.useKociorawAbility(table.get(affectedRow));
+            } else {
+                hero.useKingMudfaceAbility(table.get(affectedRow));
+            }
+        } else {
+            // Verify if the selected row is valid.
+            if ((playerTurn == 1 && affectedRow > 1) || (playerTurn == 2 && affectedRow < 2)){
+                return 4;
+            }
+
+            if (hero.getName().equals("Lord Royce")) {
+                hero.useLordRoyceAbility(table.get(affectedRow));
+            } else {
+                hero.useEmpressThorinaAbility(table.get(affectedRow));
+            }
+
+        }
+
+        players[playerTurn].usesMana(hero.getMana());
+        hero.setUsedAttack(1);
+
+        return 0;
+    }
+
+
+    public ArrayList<GameCard> getFrozenCards() {
+        ArrayList<GameCard> frozenCards = new ArrayList<>(0);
+
+        for (ArrayList<GameCard> row : table) {
+            for (GameCard card : row) {
+                if (card.getFrozen() == 1) {
+                    frozenCards.add(card);
+                }
+            }
+        }
+
+        return frozenCards;
+    }
+
+
 }
+

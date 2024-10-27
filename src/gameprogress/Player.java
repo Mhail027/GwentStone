@@ -4,7 +4,6 @@ import cards.GameCard;
 import cards.HeroCard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public final class Player {
     private int idx;
@@ -66,7 +65,7 @@ public final class Player {
         return tableDeck;
     }
 
-    public HeroCard getHerro() {
+    public HeroCard getHero() {
         return hero;
     }
 
