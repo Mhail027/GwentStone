@@ -59,4 +59,8 @@ public class Card {
     public final void setName(final String name) {
         this.name = name;
     }
+
+    public final void decreaseHealth(int damage) {
+        health -= damage;
+    }
 }

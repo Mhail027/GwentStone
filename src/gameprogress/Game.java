@@ -11,8 +11,8 @@ import java.util.Random;
 
 public final class Game {
     private static final int NUMBER_OF_PLAYERS = 2;
-    private static final int NUMBER_OF_ROWS = 4;
-    private static final int NUMBER_OF_COLS = 5;
+    private static final int TABLE_ROWS = 4;
+    private static final int TABLE_COLS = 5;
     private static final int MAX_RECEIVED_MANA_PER_ROUND = 10;
 
     private static Game instance;
@@ -55,28 +55,24 @@ public final class Game {
         firstPlayerOfRound = startGameData.getStartingPlayer();
 
         // Every player receives the deck and the herro for the current game.
-        ArrayList<ArrayList<GameCard>> playerOneDecks = inputData.getPlayerOneDecks().getDecks();
         int playerOneDeckIdx = startGameData.getPlayerOneDeckIdx();
         HeroCard playerOneHerro = startGameData.getPlayerOneHero();
-        players[1] = new Player(1, playerOneDecks.get(playerOneDeckIdx), playerOneHerro);
+        players[1] = new Player(1, inputData.getPlayerOneDecks().getDeck(playerOneDeckIdx), playerOneHerro);
 
-        ArrayList<ArrayList<GameCard>> playerTwoDecks = inputData.getPlayerTwoDecks().getDecks();
         int playerTwoDeckIdx = startGameData.getPlayerTwoDeckIdx();
         HeroCard playerTwoHerro = startGameData.getPlayerTwoHero();
-        players[2] = new Player(1, playerTwoDecks.get(playerTwoDeckIdx), playerTwoHerro);
+        players[2] = new Player(2, inputData.getPlayerTwoDecks().getDeck(playerTwoDeckIdx), playerTwoHerro);
 
         // Everyone shuffle his deck.
         int shuffleSeed = startGameData.getShuffleSeed();
-
-        ArrayList<GameCard> playerOneDeck = players[1].getTableDeck();
-        Collections.shuffle(playerOneDeck, new Random(shuffleSeed));
-
-        ArrayList<GameCard> playerTwoDeck = players[2].getTableDeck();
-        Collections.shuffle(playerTwoDeck, new Random(shuffleSeed));
+        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
+            ArrayList<GameCard> playerDeck = players[i].getTableDeck();
+            Collections.shuffle(playerDeck, new Random(shuffleSeed));
+        }
 
         // Create space to put the game table.
         table = new ArrayList<>();
-        for (int i = 0; i < NUMBER_OF_ROWS; ++i)
+        for (int i = 0; i < TABLE_ROWS; ++i)
             table.add(new ArrayList<>());
     }
 
@@ -101,22 +97,39 @@ public final class Game {
      * every player receives mana and draws a card.
      */
     public void startRound() {
-        // Every player receives mana.
+        playersReceiveMana();
+        playersDrawCard();
+        everyCardCanAttack();
+    }
+
+    private void playersReceiveMana() {
         int receivedMana = roundIdx;
         if (receivedMana > MAX_RECEIVED_MANA_PER_ROUND) {
             receivedMana = MAX_RECEIVED_MANA_PER_ROUND;
         }
-        players[1].receivesMana(receivedMana);
-        players[2].receivesMana(receivedMana);
 
-        // Everyone draws a card from his table deck, if he can.
-        for (int i = 1; i <= 2; ++i) {
+        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
+            players[i].receivesMana(receivedMana);
+        }
+    }
+
+    private void playersDrawCard() {
+        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
             ArrayList<GameCard> tableDeck = players[i].getTableDeck();
             ArrayList<GameCard> handDeck = players[i].getHandDeck();
-            if (tableDeck.size() > 0) {
+
+            if (!tableDeck.isEmpty()) {
                 GameCard drawnCard = tableDeck.get(0);
                 tableDeck.remove(0);
                 handDeck.add(drawnCard);
+            }
+        }
+    }
+
+    private void everyCardCanAttack() {
+        for (ArrayList<GameCard> row : table) {
+            for (GameCard card : row) {
+                card.setUsedAtack(0);
             }
         }
     }
@@ -154,7 +167,7 @@ public final class Game {
 
         // Verify if it's space on the row.
         int rowIdx = findRowForCard(playerTurn, card.getName());
-        if (table.get(rowIdx).size() >= NUMBER_OF_COLS) {
+        if (table.get(rowIdx).size() >= TABLE_COLS) {
             return 3;
         }
 
@@ -176,5 +189,76 @@ public final class Game {
         }
 
         return (playerIdx == 1) ? 2 : 1;
+    }
+
+    public int cardUsesAttack(Coordinates attacker, Coordinates attacked) {
+        // Verify if the attacker is a card of the current player.
+        if (tableCardBelongsToPerson(attacker, playerTurn) == 0) {
+            return 1;
+        }
+
+        // Verify if the attacked is a card of th eopponent.
+        int opponentIdx = playerTurn % 2 + 1;
+        if (tableCardBelongsToPerson(attacked, opponentIdx) == 0) {
+            return 2;
+        }
+        // Take the attacker card.
+        GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
+
+        // Verify if the card didn't attack already in this round.
+        if (attackerCard.getUsedAtack() == 1) {
+            return 3;
+        }
+
+        // Vereify if the atacker is not frozen.
+        if (attackerCard.getFrozen() == 1) {
+            return 4;
+        }
+
+        // Take the attacked card.
+        GameCard attackedCard = table.get(attacked.getX()).get(attacked.getY());
+
+        // If attacked card is not a tank, verify if there's a tank of front row of opponent.
+        if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
+            int opponentFrontRow = (playerTurn == 1) ? 2 : 0;
+            for (GameCard card : table.get(opponentFrontRow)) {
+                if (card.getName().equals("Goliath") || card.getName().equals("Warden"))
+                    return 5;
+            }
+        }
+
+        // The attack takes place.
+        attackedCard.decreaseHealth(attackerCard.getAttackDamage());
+        if (attackedCard.getHealth() <= 0) {
+            table.get(attacked.getX()).remove(attacked.getY());
+        }
+        return 0;
+    }
+
+    private int tableCardBelongsToPerson(Coordinates card, int personIdx) {
+        if (card.getX() < 0 || card.getY() < 0)
+            return 0;
+        if (personIdx == 1 && card.getX() != 3 && card.getX() != 2) {
+                return 0;
+        }
+        if (personIdx == 2 && card.getX() != 1 && card.getX() != 0) {
+                return 0;
+        }
+        if (card.getY() >= table.get(card.getX()).size()) {
+            return 0;
+        }
+
+        return 1;
+    }
+
+    private boolean coordinatesAreValid(Coordinates card) {
+        return ((tableCardBelongsToPerson(card, 1) == 1 || tableCardBelongsToPerson(card, 2) == 1));
+    }
+
+    public GameCard getCard(Coordinates position) {
+        if (coordinatesAreValid(position)) {
+            return table.get(position.getX()).get(position.getY());
+        }
+        return null;
     }
 }

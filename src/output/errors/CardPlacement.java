@@ -1,4 +1,4 @@
-package output.error;
+package output.errors;
 
 public final class CardPlacement {
     private final static String[] errors = {

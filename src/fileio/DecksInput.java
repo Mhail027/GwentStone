@@ -47,4 +47,8 @@ public final class DecksInput {
                 + decks
                 + '}';
     }
+
+    public ArrayList <GameCard> getDeck(final int idx) {
+        return decks.get(idx);
+    }
 }

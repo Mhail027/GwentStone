@@ -1,9 +1,14 @@
-package fileio;
+package gameprogress;
 
 public final class Coordinates {
     private int x, y;
 
     public Coordinates() {
+    }
+
+    public Coordinates(final int x, final int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {

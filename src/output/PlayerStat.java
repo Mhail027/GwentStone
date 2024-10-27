@@ -5,7 +5,7 @@ public final class PlayerStat {
 
     private String command;
     private int playerIdx;
-    private int output;
+    private Object output;
 
     private PlayerStat() {
     }
@@ -24,7 +24,7 @@ public final class PlayerStat {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static PlayerStat init(final String command, final int playerIdx, final int output) {
+    public static PlayerStat init(final String command, final int playerIdx, final Object output) {
         PlayerStat playerStat = getInstance();
 
         playerStat.command = command;
@@ -42,7 +42,7 @@ public final class PlayerStat {
         return playerIdx;
     }
 
-    public int getOutput() {
+    public Object getOutput() {
         return output;
     }
 }
