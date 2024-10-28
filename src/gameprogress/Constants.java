@@ -14,7 +14,7 @@ public final class Constants {
     public static final String CARD_IS_FROZEN_ERROR =
             "Attacker card is frozen.";
     public static final String HAS_TANKS_ERROR =
-            "Attacked card is not of type 'Tank’.";
+            "Attacked card is not of type 'Tank'.";
     public static final String INVALID_COORDINATES_ERROR =
             "The coordinates of the cards are wrong";
     public static final String SPECIAL_CARD_ERROR =

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Random;
 
 public final class Game {
-
     private static Game instance;
 
     private int roundIdx;
@@ -18,6 +17,11 @@ public final class Game {
     private int firstPlayerOfRound;
     private final Player[] players = new Player[Constants.NUMBER_OF_PLAYERS + 1];
     private ArrayList<ArrayList<GameCard>> table;
+
+    private int playerOneWins = 0;
+    private int playerTwoWins = 0;
+    private int gamesPlayed = 0;
+    private boolean ended;
 
     private Game() {
     }
@@ -36,13 +40,20 @@ public final class Game {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static Game init(final Input inputData, final StartGameInput startGameData) {
+    public static Game init(final Input inputData, final StartGameInput startGameData,
+                            final int gameIdx) {
         Game o = getInstance();
+
+        // If this is the first game, we must reset the stats.
+        if (gameIdx == 1) {
+            o.resetStats();
+        }
 
         // Note some "boring", but needed data.
         o.roundIdx = 1;
         o.currPlayer = startGameData.getStartingPlayer();
         o.firstPlayerOfRound = o.currPlayer;
+        o.ended = false;
 
         // First player receives the deck and the herro.
         int playerOneDeckIdx = startGameData.getPlayerOneDeckIdx();
@@ -66,6 +77,15 @@ public final class Game {
         o.createTable();
 
         return o;
+    }
+
+    /**
+     * Reset the stats about the games played. until now.
+     */
+    public void resetStats() {
+        playerOneWins = 0;
+        playerTwoWins = 0;
+        gamesPlayed = 0;
     }
 
     /**
@@ -564,6 +584,19 @@ public final class Game {
         return frozenCards;
     }
 
+    /**
+     * Update the statistics about the games played.
+     */
+    public void currPlayerWon() {
+        gamesPlayed++;
+        ended = true;
+        if (currPlayer == 1) {
+            playerOneWins++;
+        } else {
+            playerTwoWins++;
+        }
+    }
+
     public int getCurrPlayer() {
         return currPlayer;
     }
@@ -572,5 +605,20 @@ public final class Game {
         return table;
     }
 
+    public int getPlayerOneWins() {
+        return playerOneWins;
+    }
+
+    public int getPlayerTwoWins() {
+        return playerTwoWins;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
 }
 

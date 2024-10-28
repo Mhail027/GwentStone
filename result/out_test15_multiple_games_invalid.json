@@ -106,6 +106,15 @@
     "attackDamage" : 6
   } ]
 }, {
+  "command" : "getTotalGamesPlayed",
+  "output" : 1
+}, {
+  "command" : "getPlayerTwoWins",
+  "output" : 1
+}, {
+  "command" : "getPlayerOneWins",
+  "output" : 0
+}, {
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
@@ -125,7 +134,11 @@
   "output" : 1
 }, {
   "command" : "useAttackHero",
-  "error" : "Attacked card is not of type 'Tank’."
+  "cardAttacker" : {
+    "x" : 3,
+    "y" : 0
+  },
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -246,4 +259,13 @@
     "name" : "Warden",
     "attackDamage" : 8
   } ]
+}, {
+  "command" : "getTotalGamesPlayed",
+  "output" : 2
+}, {
+  "command" : "getPlayerTwoWins",
+  "output" : 2
+}, {
+  "command" : "getPlayerOneWins",
+  "output" : 0
 } ]

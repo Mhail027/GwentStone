@@ -72,12 +72,13 @@ public final class Main {
                 Input.class);
 
         ArrayNode output = objectMapper.createArrayNode();
-
+        int gameIdx = 0;
         for (GameInput gameInputData : inputData.getGames()) {
-            Game currentGame = Game.init(inputData, gameInputData.getStartGame());
+            gameIdx++;
+            Game currentGame = Game.init(inputData, gameInputData.getStartGame(), gameIdx);
             ArrayList<Action> actions = gameInputData.getActions();
 
-           currentGame.startRound();
+            currentGame.startRound();
             for (Action action : actions) {
                 action.handle(currentGame, output);
             }
