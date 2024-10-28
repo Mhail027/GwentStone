@@ -1,7 +1,7 @@
 package output.errors;
 
 public final class AttackError {
-    private final static String[] errors = {
+    private static final String[] ERRORS = {
             null,
             "Attacker card does not belong to the current player.",
             "Attacked card does not belong to the enemy.",
@@ -35,11 +35,12 @@ public final class AttackError {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static AttackError init(final String command, final int error_code) {
+    public static AttackError init(final String command,
+                                   final int errorCode) {
         AttackError o = getInstance();
 
         o.command = command;
-        o.error = errors[error_code];
+        o.error = ERRORS[errorCode];
 
         return o;
     }

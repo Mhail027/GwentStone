@@ -25,7 +25,9 @@ public final class TableCardOutput {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static TableCardOutput init(int x , int y, final Object output) {
+    public static TableCardOutput init(final int x,
+                                       final int y,
+                                       final Object output) {
         TableCardOutput o = getInstance();
 
         o.x = x;

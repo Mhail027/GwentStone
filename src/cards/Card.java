@@ -10,8 +10,9 @@ public class Card {
     protected String description;
     protected ArrayList<String> colors;
     protected String name;
+
     @JsonIgnore
-    private int usedAttack = 0;
+    protected boolean usedAttack = false;
 
     public Card() {
     }
@@ -25,55 +26,38 @@ public class Card {
         usedAttack = card.usedAttack;
     }
 
-    public final int getMana() {
-        return mana;
+    /**
+     * The card loses a part of his health.
+     */
+    public final void decreaseHealth(final int damage) {
+        health -= damage;
     }
 
-    public final void setMana(final int mana) {
-        this.mana = mana;
+    public final int getMana() {
+        return mana;
     }
 
     public final int getHealth() {
         return health;
     }
 
-    public final void setHealth(final int health) {
-        this.health = health;
-    }
-
     public final String getDescription() {
         return description;
-    }
-
-    public final void setDescription(final String description) {
-        this.description = description;
     }
 
     public final ArrayList<String> getColors() {
         return colors;
     }
 
-    public final void setColors(final ArrayList<String> colors) {
-        this.colors = colors;
-    }
-
     public final String getName() {
         return name;
     }
 
-    public final void setName(final String name) {
-        this.name = name;
+    public final void setUsedAttack(final boolean usedAttack) {
+        this.usedAttack = usedAttack;
     }
 
-    public final void decreaseHealth(int damage) {
-        health -= damage;
-    }
-
-    public int getUsedAttack() {
+    public final boolean isUsedAttack() {
         return usedAttack;
-    }
-
-    public void setUsedAttack(int usedAtack) {
-        this.usedAttack = usedAtack;
     }
 }

@@ -23,7 +23,8 @@ public final class GameStatOutput {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static GameStatOutput init(final String command, final Object output) {
+    public static GameStatOutput init(final String command,
+                                      final Object output) {
         GameStatOutput o = getInstance();
 
         o.command = command;

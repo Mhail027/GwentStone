@@ -48,7 +48,10 @@ public final class DecksInput {
                 + '}';
     }
 
-    public ArrayList <GameCard> getDeck(final int idx) {
-        return decks.get(idx);
+    /**
+     * Return the deck which is found at the wanted idx in the set of decks.
+     */
+    public ArrayList<GameCard> getDeck(final int deckIdx) {
+        return decks.get(deckIdx);
     }
 }

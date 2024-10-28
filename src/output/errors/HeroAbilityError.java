@@ -1,7 +1,7 @@
 package output.errors;
 
 public final class HeroAbilityError {
-    private final static String[] errors = {
+    private static final String[] ERRORS = {
             null,
             "Not enough mana to use hero's ability.",
             "Hero has already attacked this turn.",
@@ -32,12 +32,14 @@ public final class HeroAbilityError {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static HeroAbilityError init(final String command, final int affectedRow, final int error_code) {
+    public static HeroAbilityError init(final String command,
+                                        final int affectedRow,
+                                        final int errorCode) {
         HeroAbilityError o = getInstance();
 
         o.command = command;
         o.affectedRow = affectedRow;
-        o.error = errors[error_code];
+        o.error = ERRORS[errorCode];
 
         return o;
     }

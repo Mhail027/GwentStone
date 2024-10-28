@@ -24,7 +24,9 @@ public final class PlayerStatOutput {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static PlayerStatOutput init(final String command, final int playerIdx, final Object output) {
+    public static PlayerStatOutput init(final String command,
+                                        final int playerIdx,
+                                        final Object output) {
         PlayerStatOutput o = getInstance();
 
         o.command = command;

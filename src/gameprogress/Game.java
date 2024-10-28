@@ -127,12 +127,12 @@ public final class Game {
     private void everyCardCanAttack() {
         for (ArrayList<GameCard> row : table) {
             for (GameCard card : row) {
-                card.setUsedAttack(0);
+                card.setUsedAttack(false);
             }
         }
 
         for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
-            players[i].getHero().setUsedAttack(0);
+            players[i].getHero().setUsedAttack(false);
         }
     }
 
@@ -148,7 +148,7 @@ public final class Game {
         for (int i = startRow; i <= startRow + 1; ++i) {
             ArrayList<GameCard> row = table.get(i);
             for (GameCard card : row) {
-                card.setFrozen(0);
+                card.setFrozen(false);
             }
         }
 
@@ -222,12 +222,12 @@ public final class Game {
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
 
         // Verify if the card didn't attack already in this round.
-        if (attackerCard.getUsedAttack() == 1) {
+        if (attackerCard.isUsedAttack()) {
             return 3;
         }
 
         // Verify if the attacker is not frozen.
-        if (attackerCard.getFrozen() == 1) {
+        if (attackerCard.isFrozen()) {
             return 4;
         }
 
@@ -243,7 +243,7 @@ public final class Game {
 
         // The attack takes place.
         attackedCard.decreaseHealth(attackerCard.getAttackDamage());
-        attackerCard.setUsedAttack(1);
+        attackerCard.setUsedAttack(true);
         if (attackedCard.getHealth() <= 0) {
             table.get(attacked.getX()).remove(attacked.getY());
         }
@@ -310,12 +310,12 @@ public final class Game {
         }
 
         // Verify if the attacker is not frozen.
-        if (attackerCard.getFrozen() == 1) {
+        if (attackerCard.isFrozen()) {
             return 4;
         }
 
         // Verify if the card didn't attack already in this round.
-        if (attackerCard.getUsedAttack() == 1) {
+        if (attackerCard.isUsedAttack()) {
             return 3;
         }
 
@@ -329,7 +329,7 @@ public final class Game {
                 return 8;
             }
             attackerCard.useDiscipleAbility(attackedCard);
-            attackerCard.setUsedAttack(1);
+            attackerCard.setUsedAttack(true);
             return 0;
         }
 
@@ -346,7 +346,7 @@ public final class Game {
             }
         }
 
-        attackerCard.setUsedAttack(1);
+        attackerCard.setUsedAttack(true);
 
         // Verify if the attacker is The Ripper.
         if (attackerCard.getName().equals("The Ripper")) {
@@ -378,12 +378,12 @@ public final class Game {
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
 
         // Verify if the attacker is not frozen.
-        if (attackerCard.getFrozen() == 1) {
+        if (attackerCard.isFrozen()) {
             return 4;
         }
 
         // Verify if the card didn't attack already in this round.
-        if (attackerCard.getUsedAttack() == 1) {
+        if (attackerCard.isUsedAttack()) {
             return 3;
         }
 
@@ -416,7 +416,7 @@ public final class Game {
         }
 
         // Verify if the card didn't attack already in this round.
-        if (hero.getUsedAttack() == 1) {
+        if (hero.isUsedAttack()) {
             return 2;
         }
 
@@ -428,7 +428,7 @@ public final class Game {
             }
 
             if (hero.getName().equals("General Kocioraw")) {
-                hero.useKociorawAbility(table.get(affectedRow));
+                hero.useGeneralKociorawAbility(table.get(affectedRow));
             } else {
                 hero.useKingMudfaceAbility(table.get(affectedRow));
             }
@@ -447,7 +447,7 @@ public final class Game {
         }
 
         players[playerTurn].usesMana(hero.getMana());
-        hero.setUsedAttack(1);
+        hero.setUsedAttack(true);
 
         return 0;
     }
@@ -458,7 +458,7 @@ public final class Game {
 
         for (ArrayList<GameCard> row : table) {
             for (GameCard card : row) {
-                if (card.getFrozen() == 1) {
+                if (card.isFrozen()) {
                     frozenCards.add(card);
                 }
             }
