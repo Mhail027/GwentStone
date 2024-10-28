@@ -78,7 +78,6 @@ public final class Main {
             ArrayList<Action> actions = gameInputData.getActions();
 
            currentGame.startRound();
-
             for (Action action : actions) {
                 action.handle(currentGame, output);
             }

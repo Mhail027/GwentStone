@@ -20,7 +20,7 @@ public final class Player {
         this.hero = new HeroCard(hero);
     }
 
-    private void createTableDeck(ArrayList<GameCard> deck) {
+    private void createTableDeck(final ArrayList<GameCard> deck) {
         tableDeck = new ArrayList<>(0);
         for (GameCard card : deck) {
             tableDeck.add(new GameCard(card));
@@ -46,15 +46,15 @@ public final class Player {
     /**
      * The player receives mana.
      */
-    public void receivesMana(final int mana) {
-        this.mana += mana;
+    public void receivesMana(final int receivedMana) {
+        this.mana += receivedMana;
     }
 
     /**
      * The player spends mana.
      */
-    public void usesMana(final int mana) {
-        this.mana -= mana;
+    public void usesMana(final int usedMana) {
+        this.mana -= usedMana;
     }
 
     public ArrayList<GameCard> getHandDeck() {

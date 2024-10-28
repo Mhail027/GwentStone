@@ -1,18 +1,6 @@
 package output.errors;
 
 public final class AttackError {
-    private static final String[] ERRORS = {
-            null,
-            "Attacker card does not belong to the current player.",
-            "Attacked card does not belong to the enemy.",
-            "Attacker card has already attacked this turn.",
-            "Attacker card is frozen.",
-            "Attacked card is not of type 'Tank’.",
-            "The coordinates of the cards are worng",
-            "Attacker must be a special card.",
-            "Attacked card does not belong to the current player."
-    };
-
     private static AttackError instance;
 
     private String command;
@@ -35,12 +23,11 @@ public final class AttackError {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static AttackError init(final String command,
-                                   final int errorCode) {
+    public static AttackError init(final String command, final String error) {
         AttackError o = getInstance();
 
         o.command = command;
-        o.error = ERRORS[errorCode];
+        o.error = error;
 
         return o;
     }

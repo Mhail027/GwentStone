@@ -10,17 +10,13 @@ import java.util.Collections;
 import java.util.Random;
 
 public final class Game {
-    private static final int NUMBER_OF_PLAYERS = 2;
-    private static final int TABLE_ROWS = 4;
-    private static final int TABLE_COLS = 5;
-    private static final int MAX_RECEIVED_MANA_PER_ROUND = 10;
 
     private static Game instance;
 
     private int roundIdx;
-    private int playerTurn;
+    private int currPlayer;
     private int firstPlayerOfRound;
-    private Player[] players = new Player[NUMBER_OF_PLAYERS + 1];
+    private final Player[] players = new Player[Constants.NUMBER_OF_PLAYERS + 1];
     private ArrayList<ArrayList<GameCard>> table;
 
     private Game() {
@@ -41,45 +37,52 @@ public final class Game {
      * Alternative to a constructor, without to break SingleTone rules.
      */
     public static Game init(final Input inputData, final StartGameInput startGameData) {
-        Game currGame = getInstance();
-        currGame.initHelper(inputData, startGameData);
-        return currGame;
-    }
+        Game o = getInstance();
 
-    private void initHelper(final Input inputData, final StartGameInput startGameData) {
         // Note some "boring", but needed data.
-        roundIdx = 1;
-        playerTurn = startGameData.getStartingPlayer();
-        firstPlayerOfRound = startGameData.getStartingPlayer();
+        o.roundIdx = 1;
+        o.currPlayer = startGameData.getStartingPlayer();
+        o.firstPlayerOfRound = o.currPlayer;
 
-        // Every player receives the deck and the herro for the current game.
+        // First player receives the deck and the herro.
         int playerOneDeckIdx = startGameData.getPlayerOneDeckIdx();
+        ArrayList<GameCard> playerOneDeck = inputData.getPlayerOneDecks().getDeck(playerOneDeckIdx);
         HeroCard playerOneHerro = startGameData.getPlayerOneHero();
-        players[1] = new Player(1, inputData.getPlayerOneDecks().getDeck(playerOneDeckIdx), playerOneHerro);
+        o.players[1] = new Player(1, playerOneDeck, playerOneHerro);
 
+        // Second player receives the deck and the herro.
         int playerTwoDeckIdx = startGameData.getPlayerTwoDeckIdx();
+        ArrayList<GameCard> playerTwoDeck = inputData.getPlayerTwoDecks().getDeck(playerTwoDeckIdx);
         HeroCard playerTwoHerro = startGameData.getPlayerTwoHero();
-        players[2] = new Player(2, inputData.getPlayerTwoDecks().getDeck(playerTwoDeckIdx), playerTwoHerro);
+        o.players[2] = new Player(2, playerTwoDeck, playerTwoHerro);
 
         // Everyone shuffle his deck.
         int shuffleSeed = startGameData.getShuffleSeed();
-        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
-            ArrayList<GameCard> playerDeck = players[i].getTableDeck();
-            Collections.shuffle(playerDeck, new Random(shuffleSeed));
+        for (int i = 1; i <= Constants.NUMBER_OF_PLAYERS; ++i) {
+            o.shuffleDeck(o.players[i].getTableDeck(), shuffleSeed);
         }
 
-        // Create space to put the game table.
+        // Create the game table.
+        o.createTable();
+
+        return o;
+    }
+
+    /**
+     * The cards from a deck are shuffled using a seed.
+     */
+    private void shuffleDeck(final ArrayList<GameCard> deck, final int shuffleSeed) {
+        Collections.shuffle(deck, new Random(shuffleSeed));
+    }
+
+    /**
+     * Allocate memory for the table.
+     */
+    private void createTable() {
         table = new ArrayList<>();
-        for (int i = 0; i < TABLE_ROWS; ++i)
+        for (int i = 0; i < Constants.TABLE_ROWS; ++i) {
             table.add(new ArrayList<>());
-    }
-
-    public int getPlayerTurn() {
-        return playerTurn;
-    }
-
-    public ArrayList<ArrayList<GameCard>> getTable() {
-        return table;
+        }
     }
 
     /**
@@ -87,12 +90,14 @@ public final class Game {
      */
     public Player getPlayer(final int idx) {
         return players[idx];
+    }
 
+    public int getOpponentIdx() {
+        return currPlayer % 2 + 1;
     }
 
     /**
-     * Do the needed actions as a new round to can start:
-     * every player receives mana and draws a card.
+     * Do the needed actions as a new round to can start.
      */
     public void startRound() {
         playersReceiveMana();
@@ -100,38 +105,49 @@ public final class Game {
         everyCardCanAttack();
     }
 
+    /**
+     * At the start of every round, every player receives mana.
+     * The amount of mana is equal with the round number.
+     * Though, it's applied a ceiling for the mana which a player
+     * can receive it per round.
+     */
     private void playersReceiveMana() {
-        int receivedMana = roundIdx;
-        if (receivedMana > MAX_RECEIVED_MANA_PER_ROUND) {
-            receivedMana = MAX_RECEIVED_MANA_PER_ROUND;
+        int mana = roundIdx;
+        if (mana > Constants.MAX_RECEIVED_MANA_PER_ROUND) {
+            mana = Constants.MAX_RECEIVED_MANA_PER_ROUND;
         }
 
-        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
-            players[i].receivesMana(receivedMana);
+        for (int i = 1; i <= Constants.NUMBER_OF_PLAYERS; ++i) {
+            players[i].receivesMana(mana);
         }
     }
 
+    /**
+     * Every player draw a card from his table deck, if he can.
+     */
     private void playersDrawCard() {
-        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
-            ArrayList<GameCard> tableDeck = players[i].getTableDeck();
-            ArrayList<GameCard> handDeck = players[i].getHandDeck();
-
-            if (!tableDeck.isEmpty()) {
-                GameCard drawnCard = tableDeck.get(0);
-                tableDeck.remove(0);
-                handDeck.add(drawnCard);
+        for (int i = 1; i <= Constants.NUMBER_OF_PLAYERS; ++i) {
+            if (!players[i].getTableDeck().isEmpty()) {
+                GameCard drawnCard = players[i].getTableDeck().get(0);
+                players[i].getTableDeck().remove(0);
+                players[i].getHandDeck().add(drawnCard);
             }
         }
     }
 
+    /**
+     * Mark that every card can use his attack/ability.
+     */
     private void everyCardCanAttack() {
+        // The cards from table
         for (ArrayList<GameCard> row : table) {
             for (GameCard card : row) {
                 card.setUsedAttack(false);
             }
         }
 
-        for (int i = 1; i <= NUMBER_OF_PLAYERS; ++i) {
+        // The heroes.
+        for (int i = 1; i <= Constants.NUMBER_OF_PLAYERS; ++i) {
             players[i].getHero().setUsedAttack(false);
         }
     }
@@ -141,290 +157,372 @@ public final class Game {
      */
     public void goNextTurn() {
         // Unfreeze the cards of current player.
-        int startRow = 0;
-        if (playerTurn == 1) {
-            startRow = 2;
-        }
-        for (int i = startRow; i <= startRow + 1; ++i) {
-            ArrayList<GameCard> row = table.get(i);
-            for (GameCard card : row) {
-                card.setFrozen(false);
-            }
-        }
+        unfreezeCardsOfPlayer(currPlayer);
 
         // Go at next person.
-        playerTurn += 1;
-        if (playerTurn > NUMBER_OF_PLAYERS) {
-            playerTurn = 1;
+        currPlayer += 1;
+        if (currPlayer > Constants.NUMBER_OF_PLAYERS) {
+            currPlayer = 1;
         }
 
         // Verify if we must start a new round.
-        if (playerTurn == firstPlayerOfRound) {
+        if (currPlayer == firstPlayerOfRound) {
             roundIdx++;
             startRound();
         }
     }
 
-    public int placeCard(final int cardIdx) {
-        // Verify if the cardIdx is valid.
-        int cardsInHand = players[playerTurn].getHandDeck().size();
-        if (cardIdx >= cardsInHand) {
-            return 1;
+    /**
+     * Unfreeze all the cards of a player from table.
+     */
+    private void unfreezeCardsOfPlayer(final int playerIdx) {
+        // We'll unfreeze all frozen cards from 2 rows.
+        // We must determinate with which row we start
+        int startRow = (playerIdx == 1) ? 2 : 0;
+
+        // Unfreeze.
+        for (int i = 0; i <= 1; ++i) {
+            for (GameCard card : table.get(startRow + i)) {
+                card.setFrozen(false);
+            }
+        }
+    }
+
+    /**
+     * Current player puts a card on table.
+     *
+     * @param cardIdx position of card in hand deck
+     * @return null, if the card can be put on table
+     *         error, in contrary case
+     */
+    public String placeCard(final int cardIdx) {
+        // Verify if the index of the card is valid.
+        if (cardIdx >= players[currPlayer].getHandDeck().size()) {
+            return Constants.CARD_IDX_ERROR;
         }
 
         // Take the wanted card from handDeck.
-        GameCard card = players[playerTurn].getHandDeck().get(cardIdx);
+        GameCard card = players[currPlayer].getHandDeck().get(cardIdx);
 
         // Verify if we have enough mana for this card.
-        if (card.getMana() > players[playerTurn].getMana()) {
-            return 2;
+        if (card.getMana() > players[currPlayer].getMana()) {
+            return Constants.MANA_FOR_PLACE_CARD_ERROR;
         }
 
         // Verify if it's space on the row.
-        int rowIdx = findRowForCard(playerTurn, card.getName());
-        if (table.get(rowIdx).size() >= TABLE_COLS) {
-            return 3;
+        int rowIdx = findRowForCard(currPlayer, card.getName());
+        if (table.get(rowIdx).size() >= Constants.TABLE_COLS) {
+            return Constants.FULL_ROW_ERROR;
         }
 
         // Place the card on table.
-        players[playerTurn].getHandDeck().remove(cardIdx);
+        players[currPlayer].usesMana(card.getMana());
+        players[currPlayer].getHandDeck().remove(cardIdx);
         table.get(rowIdx).add(card);
-        players[playerTurn].usesMana(card.getMana());
-
-        return 0;
+        return null;
     }
 
+    /**
+     * Find the row on which a player must put the wanted card.
+     */
     private int findRowForCard(final int playerIdx, final String cardName) {
+        // Find the rows of the player.
+        int backRow = (playerIdx == 1) ? 3 : 0;
+        int frontRow = (playerIdx == 1) ? 2 : 1;
 
-        if (cardName.equals("Sentinel") || cardName.equals("Berserker")) {
-            return (playerIdx == 1) ? 3 : 0;
+        for (String name : Constants.CARDS_ON_BACK_ROW) {
+            if (cardName.equals(name)) {
+                return backRow;
+            }
         }
-        if (cardName.equals("The Cursed One") || cardName.equals("Disciple")) {
-            return (playerIdx == 1) ? 3 : 0;
-        }
-
-        return (playerIdx == 1) ? 2 : 1;
+        return frontRow;
     }
 
-    public int cardUsesAttack(Coordinates attacker, Coordinates attacked) {
-        // Verify if the attacker is a card of the current player.
-        if (!tableCardBelongsToPerson(attacker, playerTurn)) {
-            return 1;
-        }
-
+    /**.
+     * A card of current player attacks a card of the opponent.
+     * Both cards must be placed on table.
+     *
+     * @param attacker coordinates of card which attacks
+     * @param attacked coordinates of card which is attacked
+     * @return null, if the attack took place
+     *         error, in contrary case
+     */
+    public String cardUsesAttack(final Coordinates attacker, final Coordinates attacked) {
         // Verify if the attacked is a card of the opponent.
-        int opponentIdx = playerTurn % 2 + 1;
-        if (!tableCardBelongsToPerson(attacked, opponentIdx)) {
-            return 2;
+        if (!tableCardBelongsToPerson(attacked, getOpponentIdx())) {
+            return Constants.ATTACK_OWN_CARD_ERROR;
         }
 
         // Take the attacker card.
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
-
-        // Verify if the card didn't attack already in this round.
-        if (attackerCard.isUsedAttack()) {
-            return 3;
-        }
-
-        // Verify if the attacker is not frozen.
-        if (attackerCard.isFrozen()) {
-            return 4;
-        }
-
         // Take the attacked card.
         GameCard attackedCard = table.get(attacked.getX()).get(attacked.getY());
 
-        // If attacked card is not a tank, verify if there's a tank of front row of opponent.
-        if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
-            if (playerHasTanks(opponentIdx)) {
-                return 5;
-            }
+        // Verify if the card didn't attack already in this round.
+        if (attackerCard.isUsedAttack()) {
+            return Constants.CARD_ALREADY_ATTACKED_ERROR;
+        }
+        // Verify if the attacker is not frozen.
+        if (attackerCard.isFrozen()) {
+            return Constants.CARD_IS_FROZEN_ERROR;
+        }
+        // Verify that if the opponent has tanks, we attack one of them.
+        if (!cardIsTank(attackedCard.getName()) && playerHasTanks(getOpponentIdx())) {
+                return Constants.HAS_TANKS_ERROR;
         }
 
         // The attack takes place.
         attackedCard.decreaseHealth(attackerCard.getAttackDamage());
         attackerCard.setUsedAttack(true);
+
+        // Verify if the attacked died.
         if (attackedCard.getHealth() <= 0) {
             table.get(attacked.getX()).remove(attacked.getY());
         }
 
-        return 0;
+        return null;
     }
 
-    private boolean playerHasTanks(final int personIdx) {
-        int playerFrontRow = (personIdx == 1) ? 2 : 1;
-        for (GameCard card : table.get(playerFrontRow)) {
-            if (card.getName().equals("Goliath") || card.getName().equals("Warden")) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean tableCardBelongsToPerson(final Coordinates card, final int personIdx) {
+    /**
+     * Verify if a card from the table belongs to the specified player
+     *
+     * @param card coordinates of the card
+     * @param player idx of teh player
+     * @return true, if the card belongs to the player
+     *         false, in contrary case
+     */
+    private boolean tableCardBelongsToPerson(final Coordinates card, final int player) {
         // Coordinates must be positive or 0.
-        if (card.getX() < 0 || card.getY() < 0)
+        if (card.getX() < 0 || card.getY() < 0) {
             return false;
+        }
 
         // Verify if the card is on a correct row.
-        if (personIdx == 1 && card.getX() != 3 && card.getX() != 2) {
+        if (player == 1 && card.getX() != 3 && card.getX() != 2) {
                 return false;
         }
-        if (personIdx == 2 && card.getX() != 1 && card.getX() != 0) {
+        if (player == 2 && card.getX() != 1 && card.getX() != 0) {
                 return false;
         }
 
         // Verify if at the given position exists a card.
-        if (card.getY() >= table.get(card.getX()).size()) {
-            return false;
+        return card.getY() < table.get(card.getX()).size();
+    }
+
+    /**
+     * Verify if the given card is a tank.
+     *
+     * @param card name of the card
+     * @return true, if the card is a tank
+     *         false, in contrary case
+     */
+    private boolean cardIsTank(final String card) {
+        for (String tank : Constants.TANKS) {
+            if (card.equals(tank)) {
+                return true;
+            }
         }
-
-        return true;
+        return false;
     }
 
-    private boolean coordinatesAreValid(Coordinates card) {
-        return ((tableCardBelongsToPerson(card, 1) || tableCardBelongsToPerson(card, 2)));
+    /**
+     * Verify if a player has tanks.
+     *
+     * @param player idx of player
+     * @return true, if the player has tanks
+     *         false, in contrary case
+     */
+    private boolean playerHasTanks(final int player) {
+        int playerFrontRow = (player == 1) ? 2 : 1;
+        for (GameCard card : table.get(playerFrontRow)) {
+           for (String tank : Constants.TANKS) {
+               if (card.getName().equals(tank)) {
+                   return true;
+               }
+            }
+        }
+        return false;
     }
 
-    public GameCard getCard(Coordinates position) {
+    /**
+     * Verify if is a card on the table at the given position.
+     *
+     * @param position the coordinates of the position
+     * @return true, if the coordinates are valid
+     *         false, in contrary case
+     */
+    private boolean coordinatesAreValid(final Coordinates position) {
+        return ((tableCardBelongsToPerson(position, 1) || tableCardBelongsToPerson(position, 2)));
+    }
+
+    /**
+     * @param position coordinates of the position
+     * @return the card at the specified position from table
+     */
+    public GameCard getCard(final Coordinates position) {
         if (coordinatesAreValid(position)) {
             return table.get(position.getX()).get(position.getY());
         }
         return null;
     }
 
-    public int cardUsesAbility(Coordinates attacker, Coordinates attacked) {
+    /**
+     * A card of current player uses his ability on other card.
+     * Both cards must be placed on table.
+     *
+     * @param attacker coordinates of card which attacks
+     * @param attacked coordinates of card which is attacked
+     * @return null, if the attacker uses his ability
+     *         error, in contrary case
+     */
+    public String cardUsesAbility(final Coordinates attacker, final Coordinates attacked) {
         // Verify if the coordinates are valid.
-        if (!coordinatesAreValid(attacker) || ! coordinatesAreValid(attacked)) {
-            return 6;
+        if (!coordinatesAreValid(attacker) || !coordinatesAreValid(attacked)) {
+            return Constants.INVALID_COORDINATES_ERROR;
         }
 
         // Take the attacker card.
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
-
-        // Verify if the attacker is a special card.
-        if (!attackerCard.getName().equals("The Ripper") && !attackerCard.getName().equals("Miraj") &&
-        !attackerCard.getName().equals("The Cursed One") && !attackerCard.getName().equals("Disciple")) {
-            return 7;
-        }
-
-        // Verify if the attacker is not frozen.
-        if (attackerCard.isFrozen()) {
-            return 4;
-        }
-
-        // Verify if the card didn't attack already in this round.
-        if (attackerCard.isUsedAttack()) {
-            return 3;
-        }
-
         // Take the attacked card.
         GameCard attackedCard = table.get(attacked.getX()).get(attacked.getY());
+
+        // Verify if the attacker is a special card.
+        if (!isSpecialCard(attackerCard.getName())) {
+            return Constants.SPECIAL_CARD_ERROR;
+        }
+        // Verify if the attacker is not frozen.
+        if (attackerCard.isFrozen()) {
+            return Constants.CARD_IS_FROZEN_ERROR;
+        }
+        // Verify if the card didn't attack already in this round.
+        if (attackerCard.isUsedAttack()) {
+            return Constants.CARD_ALREADY_ATTACKED_ERROR;
+        }
 
         // Verify if the attacker is Disciple.
         if (attackerCard.getName().equals("Disciple")) {
             // Verify if the attacked is a card of the current player.
-            if (!tableCardBelongsToPerson(attacked, playerTurn)) {
-                return 8;
+            if (!tableCardBelongsToPerson(attacked, currPlayer)) {
+                return Constants.ATTACK_ENEMY_CARD_ERROR;
             }
+
+            // Use the ability.
             attackerCard.useDiscipleAbility(attackedCard);
             attackerCard.setUsedAttack(true);
-            return 0;
+            return null;
         }
 
+        // If we get here, that means that we want to attack the opponent.
         // Verify if the attacked is a card of opponent.
-        int opponentIdx = playerTurn % 2 + 1;
-        if (!tableCardBelongsToPerson(attacked, opponentIdx)) {
-            return 2;
+        if (!tableCardBelongsToPerson(attacked, getOpponentIdx())) {
+            return Constants.ATTACK_OWN_CARD_ERROR;
+        }
+        // Verify that if the opponent has tanks, we attack one of them.
+        if (!cardIsTank(attackedCard.getName()) && playerHasTanks(getOpponentIdx())) {
+            return Constants.HAS_TANKS_ERROR;
         }
 
-        // If attacked card is not a tank, verify if there's a tank on front row of opponent.
-        if (!attackedCard.getName().equals("Goliath") &&  !attackedCard.getName().equals("Warden")) {
-            if (playerHasTanks(opponentIdx)) {
-                return 5;
-            }
-        }
-
+        // Use the ability.
         attackerCard.setUsedAttack(true);
-
-        // Verify if the attacker is The Ripper.
         if (attackerCard.getName().equals("The Ripper")) {
             attackerCard.useTheRipperAbility(attackedCard);
-            return 0;
-        }
-
-        // Verify if the attacker is Miraj.
-        if (attackerCard.getName().equals("Miraj")) {
+        } else if (attackerCard.getName().equals("Miraj")) {
             attackerCard.useMirajAbility(attackedCard);
-            return 0;
+        } else {
+            attackerCard.useTheCursedOneAbility(attackedCard);
         }
 
-        // If we get here, the attacker is The Cursed One.
-        attackerCard.useTheCursedOneAbility(attackedCard);
+        // Verify if the attacked died.
         if (attackedCard.getHealth() == 0) {
             table.get(attacked.getX()).remove(attacked.getY());
         }
-        return 0;
+
+        return null;
     }
 
-    public int useAttackOnHero(Coordinates attacker) {
+    /**
+     * Verify if a card is special.
+     *
+     * @param card name of the card
+     * @return true, if the card is special
+     *         false, in contrary case
+     */
+    private boolean isSpecialCard(final String card) {
+        for (String specialCard : Constants.SPECIAL_CARDS) {
+            if (card.equals(specialCard)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * A card of current player attacks the herro of the enemy.
+     * The card which attacks must be placed on table.
+     *
+     * @param attacker coordinates of card which attacks
+     * @return null, if the attack took place
+     *         error, in contrary case
+     *         GAME_ENDED, if the current player killed the enemy hero
+     */
+    public String useAttackOnHero(final Coordinates attacker) {
         // Verify if the coordinates are valid.
         if (!coordinatesAreValid(attacker)) {
-            return 6;
+            return Constants.INVALID_COORDINATES_ERROR;
         }
 
         // Take the attacker card.
         GameCard attackerCard = table.get(attacker.getX()).get(attacker.getY());
+        // Get the hero of the opponent.
+        HeroCard opponentHero = players[getOpponentIdx()].getHero();
 
         // Verify if the attacker is not frozen.
         if (attackerCard.isFrozen()) {
-            return 4;
+            return Constants.CARD_IS_FROZEN_ERROR;
         }
-
         // Verify if the card didn't attack already in this round.
         if (attackerCard.isUsedAttack()) {
-            return 3;
+            return Constants.CARD_ALREADY_ATTACKED_ERROR;
         }
-
         // Verify if there's a tank on front row of the opponent.
-        int opponentIdx = playerTurn % 2 + 1;
-        if (playerHasTanks(opponentIdx)) {
-            return 5;
+        if (playerHasTanks(getOpponentIdx())) {
+            return Constants.HAS_TANKS_ERROR;
         }
-
-        // Get the hero of the opponent.
-        HeroCard opponentHero = players[opponentIdx].getHero();
 
         // The attack can take place.
         opponentHero.decreaseHealth(attackerCard.getAttackDamage());
-
+        // Verify if the hero died.
         if (opponentHero.getHealth() <= 0) {
-            return 99; //gg
+            return Constants.GAME_ENDED;
         }
 
-        return 0;
+        return null;
     }
 
-    public int useHeroAbility(final int affectedRow) {
+    /**
+     * The herro of current player use his ability
+     * @param affectedRow idx of the row which will be affected
+     * @return null, if the hero uses his ability
+     *         error, in contrary case
+     */
+    public String useHeroAbility(final int affectedRow) {
         // Get the herro card.
-        HeroCard hero = players[playerTurn].getHero();
+        HeroCard hero = players[currPlayer].getHero();
 
         // Verify if the current player has enough mana to use the hero ability.
-        if (hero.getMana() > players[playerTurn].getMana()) {
-            return 1;
+        if (hero.getMana() > players[currPlayer].getMana()) {
+            return Constants.MANA_FOR_HERO_ABILITY_ERROR;
         }
-
         // Verify if the card didn't attack already in this round.
         if (hero.isUsedAttack()) {
-            return 2;
+            return Constants.HERO_ALREADY_ATTACKED_ERROR;
         }
 
-        // Verify if the hero acts on his friends.
+        // Use the ability.
         if (hero.getName().equals("General Kocioraw") || hero.getName().equals("King Mudface")) {
             // Verify if the selected row is valid.
-            if ((playerTurn == 1 && affectedRow < 2) || (playerTurn == 2 && affectedRow > 1)){
-                return 3;
+            if ((currPlayer == 1 && affectedRow < 2) || (currPlayer == 2 && affectedRow > 1)) {
+                return Constants.ATTACK_OPPONENT_ROW_ERROR;
             }
 
             if (hero.getName().equals("General Kocioraw")) {
@@ -434,8 +532,8 @@ public final class Game {
             }
         } else {
             // Verify if the selected row is valid.
-            if ((playerTurn == 1 && affectedRow > 1) || (playerTurn == 2 && affectedRow < 2)){
-                return 4;
+            if ((currPlayer == 1 && affectedRow > 1) || (currPlayer == 2 && affectedRow < 2)) {
+                return Constants.ATTACK_OWN_ROW_ERROR;
             }
 
             if (hero.getName().equals("Lord Royce")) {
@@ -445,17 +543,17 @@ public final class Game {
             }
 
         }
-
-        players[playerTurn].usesMana(hero.getMana());
+        players[currPlayer].usesMana(hero.getMana());
         hero.setUsedAttack(true);
 
-        return 0;
+        return null;
     }
 
-
+    /**
+     * @return ArrayList with the frozen cards from table
+     */
     public ArrayList<GameCard> getFrozenCards() {
         ArrayList<GameCard> frozenCards = new ArrayList<>(0);
-
         for (ArrayList<GameCard> row : table) {
             for (GameCard card : row) {
                 if (card.isFrozen()) {
@@ -463,10 +561,16 @@ public final class Game {
                 }
             }
         }
-
         return frozenCards;
     }
 
+    public int getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public ArrayList<ArrayList<GameCard>> getTable() {
+        return table;
+    }
 
 }
 

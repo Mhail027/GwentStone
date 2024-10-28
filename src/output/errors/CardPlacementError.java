@@ -1,13 +1,6 @@
 package output.errors;
 
 public final class CardPlacementError {
-    private static final String[] ERRORS = {
-            null,
-            "Number of card is bigger than number of cards from hand.",
-            "Not enough mana to place card on table.",
-            "Cannot place card on table since row is full."
-    };
-
     private static CardPlacementError instance;
 
     private final String command = "placeCard";
@@ -31,12 +24,11 @@ public final class CardPlacementError {
     /**
      * Alternative to a constructor, without to break SingleTone rules.
      */
-    public static CardPlacementError init(final int handIdx,
-                                          final int errorCode) {
+    public static CardPlacementError init(final int handIdx, final String error) {
         CardPlacementError o = getInstance();
 
         o.handIdx = handIdx;
-        o.error = ERRORS[errorCode];
+        o.error = error;
 
         return o;
     }

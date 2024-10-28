@@ -1,14 +1,6 @@
 package output.errors;
 
 public final class HeroAbilityError {
-    private static final String[] ERRORS = {
-            null,
-            "Not enough mana to use hero's ability.",
-            "Hero has already attacked this turn.",
-            "Selected row does not belong to the current player.",
-            "Selected row does not belong to the enemy."
-    };
-
     private static HeroAbilityError instance;
 
     private String command;
@@ -34,12 +26,12 @@ public final class HeroAbilityError {
      */
     public static HeroAbilityError init(final String command,
                                         final int affectedRow,
-                                        final int errorCode) {
+                                        final String error) {
         HeroAbilityError o = getInstance();
 
         o.command = command;
         o.affectedRow = affectedRow;
-        o.error = ERRORS[errorCode];
+        o.error = error;
 
         return o;
     }
