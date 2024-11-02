@@ -10,7 +10,7 @@ public final class GameStatOutput {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static GameStatOutput getInstance() {
         if (instance == null) {
@@ -21,7 +21,7 @@ public final class GameStatOutput {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static GameStatOutput init(final String command,
                                       final Object output) {

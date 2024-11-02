@@ -9,7 +9,7 @@ public final class EndGameOutput {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static EndGameOutput getInstance() {
         if (instance == null) {
@@ -20,7 +20,7 @@ public final class EndGameOutput {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static EndGameOutput init(final int winner) {
         EndGameOutput o = getInstance();

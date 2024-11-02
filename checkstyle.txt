@@ -1,5 +1,5 @@
 Starting audit...
-[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:250:42: '3' is a magic number. [MagicNumber]
-[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/Game.java:321:43: '3' is a magic number. [MagicNumber]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/GameTable.java:133:42: '3' is a magic number. [MagicNumber]
+[ERROR] /home/necula-mihail/Desktop/Anul2/Semestrul1/POO/oop-assigment/./src/gameprogress/GameTable.java:159:43: '3' is a magic number. [MagicNumber]
 Audit done.
 Checkstyle ends with 2 errors.

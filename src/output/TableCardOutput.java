@@ -12,7 +12,7 @@ public final class TableCardOutput {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static TableCardOutput getInstance() {
         if (instance == null) {
@@ -23,7 +23,7 @@ public final class TableCardOutput {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static TableCardOutput init(final int x,
                                        final int y,

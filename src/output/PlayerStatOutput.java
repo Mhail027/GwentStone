@@ -11,7 +11,7 @@ public final class PlayerStatOutput {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static PlayerStatOutput getInstance() {
         if (instance == null) {
@@ -22,7 +22,7 @@ public final class PlayerStatOutput {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static PlayerStatOutput init(final String command,
                                         final int playerIdx,

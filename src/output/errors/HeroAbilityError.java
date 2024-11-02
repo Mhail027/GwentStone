@@ -11,7 +11,7 @@ public final class HeroAbilityError {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static HeroAbilityError getInstance() {
         if (instance == null) {
@@ -22,7 +22,7 @@ public final class HeroAbilityError {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static HeroAbilityError init(final String command,
                                         final int affectedRow,

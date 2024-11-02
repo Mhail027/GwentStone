@@ -1,4 +1,4 @@
-package gameprogress;
+package input;
 
 public final class Coordinates {
     private int x, y;

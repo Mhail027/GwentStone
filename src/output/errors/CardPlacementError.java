@@ -11,7 +11,7 @@ public final class CardPlacementError {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static CardPlacementError getInstance() {
         if (instance == null) {
@@ -22,7 +22,7 @@ public final class CardPlacementError {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static CardPlacementError init(final int handIdx, final String error) {
         CardPlacementError o = getInstance();

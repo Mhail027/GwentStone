@@ -1,15 +1,22 @@
 package input;
 
-import cards.GameCard;
+import cards.RegularCard;
 
 import java.util.ArrayList;
 
 public final class DecksInput {
     private int nrCardsInDeck;
     private int nrDecks;
-    private ArrayList<ArrayList<GameCard>> decks;
+    private ArrayList<ArrayList<RegularCard>> decks;
 
     public DecksInput() {
+    }
+
+    /**
+     * Return the deck which is found at the wanted idx in the set of decks.
+     */
+    public ArrayList<RegularCard> getDeck(final int deckIdx) {
+        return decks.get(deckIdx);
     }
 
     public int getNrCardsInDeck() {
@@ -28,11 +35,11 @@ public final class DecksInput {
         this.nrDecks = nrDecks;
     }
 
-    public ArrayList<ArrayList<GameCard>> getDecks() {
+    public ArrayList<ArrayList<RegularCard>> getDecks() {
         return decks;
     }
 
-    public void setDecks(final ArrayList<ArrayList<GameCard>> decks) {
+    public void setDecks(final ArrayList<ArrayList<RegularCard>> decks) {
         this.decks = decks;
     }
 
@@ -46,12 +53,5 @@ public final class DecksInput {
                 + ", decks="
                 + decks
                 + '}';
-    }
-
-    /**
-     * Return the deck which is found at the wanted idx in the set of decks.
-     */
-    public ArrayList<GameCard> getDeck(final int deckIdx) {
-        return decks.get(deckIdx);
     }
 }

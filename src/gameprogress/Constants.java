@@ -34,9 +34,6 @@ public final class Constants {
 
     public static final String[] CARDS_ON_BACK_ROW = {"Sentinel", "Berserker",
             "The Cursed One", "Disciple"};
-    public static final String[] SPECIAL_CARDS = {"Disciple", "The Cursed One",
-            "The Ripper", "Miraj"};
-    public static final String[] TANKS = {"Goliath", "Warden"};
 
     public static final int NUMBER_OF_PLAYERS = 2;
     public static final int TABLE_ROWS = 4;

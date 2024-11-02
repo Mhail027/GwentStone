@@ -14,17 +14,17 @@ public class HeroCard extends Card {
     }
 
     /**
-     * eneral GKocioraw uses his ability of improving with +1 the attack
+     * General Kocioraw uses his ability of improving with +1 the attack
      * damage of the cards from a row.
      */
-    public void useGeneralKociorawAbility(final ArrayList<GameCard> affectedRow) {
+    public void useGeneralKociorawAbility(final ArrayList<RegularCard> affectedRow) {
         // Verify if is Kocioraw.
         if (!name.equals("General Kocioraw")) {
             return;
         }
 
         // Use the ability.
-        for (GameCard card : affectedRow) {
+        for (RegularCard card : affectedRow) {
             card.addAttackDamage(1);
         }
        usedAttack = true;
@@ -34,14 +34,14 @@ public class HeroCard extends Card {
      * King Mudface uses his ability of improving with +1 the health
      * of the cards from a row.
      */
-    public void useKingMudfaceAbility(final ArrayList<GameCard> affectedRow) {
+    public void useKingMudfaceAbility(final ArrayList<RegularCard> affectedRow) {
         // Verify if it's King Mudface.
         if (!name.equals("King Mudface")) {
             return;
         }
 
         // Use the ability.
-        for (GameCard card : affectedRow) {
+        for (RegularCard card : affectedRow) {
             card.addHealth(1);
         }
         usedAttack = true;
@@ -50,14 +50,14 @@ public class HeroCard extends Card {
     /**
      * Lord Royce uses his ability of freezing all the cards from a row.
      */
-    public void useLordRoyceAbility(final ArrayList<GameCard> affectedRow) {
+    public void useLordRoyceAbility(final ArrayList<RegularCard> affectedRow) {
         // Verify if it's Lord Royce.
         if (!name.equals("Lord Royce")) {
             return;
         }
 
         // Use the ability.
-        for (GameCard card : affectedRow) {
+        for (RegularCard card : affectedRow) {
             card.setFrozen(true);
         }
         usedAttack = true;
@@ -68,16 +68,16 @@ public class HeroCard extends Card {
      * Empress Thorina uses his ability of eliminating the card with
      * the highest health from a row.
      */
-    public void useEmpressThorinaAbility(final ArrayList<GameCard> affectedRow) {
+    public void useEmpressThorinaAbility(final ArrayList<RegularCard> affectedRow) {
         // Verify if it's Empress Thorina.
         if (!name.equals("Empress Thorina")) {
             return;
         }
 
         // Find the card with the highest health fromm the row.
-        GameCard highestHealthCard = affectedRow.get(0);
+        RegularCard highestHealthCard = affectedRow.get(0);
         int cardIdx = 0, colIdx = 0;
-        for (GameCard card : affectedRow) {
+        for (RegularCard card : affectedRow) {
             if (card.getHealth() > highestHealthCard.getHealth()) {
                 highestHealthCard = card;
                 cardIdx = colIdx;

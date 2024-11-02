@@ -1,7 +1,7 @@
 package main;
 
 import checker.Checker;
-import gameprogress.Action;
+import input.ActionInput;
 import gameprogress.Game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,11 +76,11 @@ public final class Main {
         for (GameInput gameInputData : inputData.getGames()) {
             gameIdx++;
             Game currentGame = Game.init(inputData, gameInputData.getStartGame(), gameIdx);
-            ArrayList<Action> actions = gameInputData.getActions();
+            ArrayList<ActionInput> actionInputs = gameInputData.getActions();
 
             currentGame.startRound();
-            for (Action action : actions) {
-                action.handle(currentGame, output);
+            for (ActionInput actionInput : actionInputs) {
+                actionInput.handle(currentGame, output);
             }
         }
 

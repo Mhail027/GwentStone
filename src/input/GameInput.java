@@ -1,12 +1,10 @@
 package input;
 
-import gameprogress.Action;
-
 import java.util.ArrayList;
 
 public final class GameInput {
     private StartGameInput startGame;
-    private ArrayList<Action> actions;
+    private ArrayList<ActionInput> actionInputs;
 
     public GameInput() {
     }
@@ -19,12 +17,12 @@ public final class GameInput {
         this.startGame = startGame;
     }
 
-    public ArrayList<Action> getActions() {
-        return actions;
+    public ArrayList<ActionInput> getActions() {
+        return actionInputs;
     }
 
-    public void setActions(final ArrayList<Action> actions) {
-        this.actions = actions;
+    public void setActions(final ArrayList<ActionInput> actions) {
+        this.actionInputs = actions;
     }
 
     @Override
@@ -33,7 +31,7 @@ public final class GameInput {
                 +  "startGame="
                 + startGame
                 + ", actions="
-                + actions
+                + actionInputs
                 + '}';
     }
 }

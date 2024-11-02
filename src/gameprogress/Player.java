@@ -1,46 +1,21 @@
 package gameprogress;
 
-import cards.GameCard;
 import cards.HeroCard;
-
-import java.util.ArrayList;
+import cards.RegularCard;
 
 public final class Player {
     private int idx;
     private int mana;
-    private ArrayList<GameCard> handDeck;
-    private ArrayList<GameCard> tableDeck;
-    private HeroCard hero;
+    private final Deck handDeck;
+    private final Deck tableDeck;
+    private final  HeroCard hero;
 
-    public Player(final int idx, final ArrayList<GameCard> tableDeck, final HeroCard hero) {
+    public Player(final int idx, final Deck tableDeck, final HeroCard hero) {
         this.idx = idx;
         this.mana = 0;
-        this.handDeck = new ArrayList<>(0);
-        this.createTableDeck(tableDeck);
+        this.handDeck = new Deck(null);
+        this.tableDeck = tableDeck;
         this.hero = new HeroCard(hero);
-    }
-
-    private void createTableDeck(final ArrayList<GameCard> deck) {
-        tableDeck = new ArrayList<>(0);
-        for (GameCard card : deck) {
-            tableDeck.add(new GameCard(card));
-        }
-    }
-
-    public int getIdx() {
-        return idx;
-    }
-
-    public void setIdx(final int idx) {
-        this.idx = idx;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public void setMana(final int mana) {
-        this.mana = mana;
     }
 
     /**
@@ -57,11 +32,35 @@ public final class Player {
         this.mana -= usedMana;
     }
 
-    public ArrayList<GameCard> getHandDeck() {
+    /**
+     * Verify if a player has tanks.
+     * @return true, if the player has tanks
+     *         false, in contrary case
+     */
+    public boolean hasTanks(final GameTable table) {
+        int frontRow = (idx == 1) ? 2 : 1;
+
+        for (RegularCard card : table.getRow(frontRow)) {
+            if (card.isTank()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(final int mana) {
+        this.mana = mana;
+    }
+
+    public Deck getHandDeck() {
         return handDeck;
     }
 
-    public ArrayList<GameCard> getTableDeck() {
+    public Deck getTableDeck() {
         return tableDeck;
     }
 

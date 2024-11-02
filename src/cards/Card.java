@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 
-public class Card {
+public abstract class Card {
     protected int mana;
     protected int health;
     protected String description;

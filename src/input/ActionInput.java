@@ -1,11 +1,13 @@
-package gameprogress;
+package input;
 
 import cards.HeroCard;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import cards.GameCard;
+import cards.RegularCard;
+import gameprogress.Deck;
+import gameprogress.Game;
 import output.EndGameOutput;
 import output.GameStatOutput;
 import output.PlayerStatOutput;
@@ -17,7 +19,7 @@ import output.errors.HeroAbilityError;
 
 import java.util.ArrayList;
 
-public final class Action {
+public final class ActionInput {
     private String command;
     private int handIdx;
     private Coordinates cardAttacker;
@@ -27,7 +29,160 @@ public final class Action {
     private int x;
     private int y;
 
-    public Action() {
+    public ActionInput() {
+    }
+
+    /**
+     * Do an action in the current game. A message containing the result of the
+     * action is added in output, if it's the case.
+     */
+    public void handle(final Game currGame, final ArrayNode output) {
+        if (command.startsWith("get")) {
+            handleGetAction(currGame, output);
+        } else {
+            handleDoAction(currGame, output);
+        }
+    }
+
+    /**
+     * Do an action of type "get some information about the game".
+     */
+    private void handleGetAction(final Game currGame, final ArrayNode output) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode newNode = switch (command) {
+            case "getPlayerDeck" -> {
+                Deck tableDeck = currGame.getPlayer(playerIdx).getTableDeck();
+                yield objectMapper.valueToTree(
+                        PlayerStatOutput.init(command, playerIdx, tableDeck.getCards()));
+            }
+            case "getCardsInHand" -> {
+                Deck handDeck = currGame.getPlayer(playerIdx).getHandDeck();
+                yield objectMapper.valueToTree(
+                        PlayerStatOutput.init(command, playerIdx, handDeck.getCards()));
+            }
+            case "getPlayerHero" -> {
+                HeroCard hero = currGame.getPlayer(playerIdx).getHero();
+                yield objectMapper.valueToTree(
+                        PlayerStatOutput.init(command, playerIdx, hero));
+            }
+            case "getCardsOnTable" -> {
+                ArrayList<ArrayList<RegularCard>> table = currGame.getTable().getCards();
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, table));
+            }
+            case "getPlayerTurn" -> {
+                int currPlayerIdx = currGame.getCurrPlayer();
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, currPlayerIdx));
+            }
+            case "getPlayerMana" -> {
+                int mana = currGame.getPlayer(playerIdx).getMana();
+                yield objectMapper.valueToTree(
+                        PlayerStatOutput.init(command, playerIdx, mana));
+            }
+            case "getCardAtPosition" -> {
+                RegularCard card = currGame.getTable().getCard(new Coordinates(x, y));
+                if (card == null) {
+                    yield  objectMapper.valueToTree(TableCardOutput.init(x, y,
+                            "No card available at that position."));
+                } else {
+                    yield  objectMapper.valueToTree(
+                            TableCardOutput.init(x, y, card));
+                }
+            }
+            case "getFrozenCardsOnTable" -> {
+                ArrayList<RegularCard> frozenCards = currGame.getTable().getFrozenCards();
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, frozenCards));
+            }
+            case "getPlayerOneWins" -> {
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, currGame.getPlayerOneWins()));
+            }
+            case "getPlayerTwoWins" -> {
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, currGame.getPlayerTwoWins()));
+            }
+            case "getTotalGamesPlayed" -> {
+                yield objectMapper.valueToTree(
+                        GameStatOutput.init(command, currGame.getGamesPlayed()));
+            }
+            default -> null;
+        };
+
+        if (newNode != null) {
+            output.add(newNode);
+        }
+    }
+
+    /**
+     * Do an action of type "do something which help the game to progress".
+     */
+    private void handleDoAction(final Game currGame, final ArrayNode output) {
+        if (currGame.isEnded()) {
+            return;
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode newNode = switch (command) {
+            case "endPlayerTurn" -> {
+                currGame.goNextTurn();
+                yield null;
+            }
+            case "placeCard" -> {
+                String error = currGame.placeCard(handIdx);
+                if (error != null) {
+                    yield objectMapper.valueToTree(
+                            CardPlacementError.init(handIdx, error));
+                }
+                yield null;
+            }
+            case "cardUsesAttack" -> {
+                String error = currGame.cardUsesAttack(cardAttacker, cardAttacked);
+                if (error != null) {
+                    yield objectMapper.valueToTree(
+                            AttackError.init(command, cardAttacked, cardAttacker, error));
+                }
+                yield null;
+            }
+            case "cardUsesAbility" -> {
+                String error = currGame.cardUsesAbility(cardAttacker, cardAttacked);
+                if (error != null) {
+                    yield objectMapper.valueToTree(
+                            AttackError.init(command, cardAttacked, cardAttacker, error));
+                }
+                yield null;
+            }
+            case "useAttackHero" -> {
+                String status = currGame.useAttackOnHero(cardAttacker);
+                if (status != null) {
+                    if (status.equals("Game ended")) {
+                        currGame.currPlayerWon();
+                        yield objectMapper.valueToTree(
+                                EndGameOutput.init(currGame.getCurrPlayer()));
+                    } else {
+                        yield objectMapper.valueToTree(
+                                AttackHeroError.init(command, cardAttacker, status));
+                    }
+                }
+                yield null;
+            }
+            case "useHeroAbility" -> {
+                String error = currGame.useHeroAbility(affectedRow);
+                if (error != null) {
+                    yield objectMapper.valueToTree(
+                            HeroAbilityError.init(command, affectedRow, error));
+                }
+                yield null;
+            }
+            default -> {
+                yield null;
+            }
+        };
+
+        if (newNode != null) {
+            output.add(newNode);
+        }
     }
 
     public String getCommand() {
@@ -115,159 +270,4 @@ public final class Action {
                 + y
                 + '}';
     }
-
-    /**
-     * Do an action in the current game. A message containing the result of the
-     * action is added in output, if it's the case.
-     */
-    public void handle(final Game currGame, final ArrayNode output) {
-        if (command.startsWith("get")) {
-            handleGetAction(currGame, output);
-        } else {
-            handleDoAction(currGame, output);
-        }
-    }
-
-    /**
-     * Do an action of type "get some information about the game".
-     */
-    private void handleGetAction(final Game currGame, final ArrayNode output) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode newNode = switch (command) {
-            case "getPlayerDeck" -> {
-                ArrayList<GameCard> tableDeck = currGame.getPlayer(playerIdx).getTableDeck();
-                yield objectMapper.valueToTree(
-                        PlayerStatOutput.init(command, playerIdx, tableDeck));
-            }
-            case "getCardsInHand" -> {
-                ArrayList<GameCard> handDeck = currGame.getPlayer(playerIdx).getHandDeck();
-                yield objectMapper.valueToTree(
-                        PlayerStatOutput.init(command, playerIdx, handDeck));
-            }
-            case "getPlayerHero" -> {
-                HeroCard hero = currGame.getPlayer(playerIdx).getHero();
-                yield objectMapper.valueToTree(
-                        PlayerStatOutput.init(command, playerIdx, hero));
-            }
-            case "getCardsOnTable" -> {
-                ArrayList<ArrayList<GameCard>> table = currGame.getTable();
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, table));
-            }
-            case "getPlayerTurn" -> {
-                int currPlayerIdx = currGame.getCurrPlayer();
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currPlayerIdx));
-            }
-            case "getPlayerMana" -> {
-                int mana = currGame.getPlayer(playerIdx).getMana();
-                yield objectMapper.valueToTree(
-                        PlayerStatOutput.init(command, playerIdx, mana));
-            }
-            case "getCardAtPosition" -> {
-                GameCard card = currGame.getCard(new Coordinates(x, y));
-                if (card == null) {
-                    yield  objectMapper.valueToTree(TableCardOutput.init(x, y,
-                            "No card available at that position."));
-                } else {
-                    yield  objectMapper.valueToTree(
-                            TableCardOutput.init(x, y, card));
-                }
-            }
-            case "getFrozenCardsOnTable" -> {
-                ArrayList<GameCard> frozenCards = currGame.getFrozenCards();
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, frozenCards));
-            }
-            case "getPlayerOneWins" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getPlayerOneWins()));
-            }
-            case "getPlayerTwoWins" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getPlayerTwoWins()));
-            }
-            case "getTotalGamesPlayed" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getGamesPlayed()));
-            }
-            default -> null;
-        };
-
-        if (newNode != null) {
-            output.add(newNode);
-        }
-    }
-
-    /**
-     * Do an action of type "do something which help the game to progress".
-     */
-    private void handleDoAction(final Game currGame, final ArrayNode output) {
-        if (currGame.isEnded()) {
-            return;
-        }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode newNode = switch (command) {
-            case "endPlayerTurn" -> {
-                currGame.goNextTurn();
-                yield null;
-            }
-            case "placeCard" -> {
-                String error = currGame.placeCard(handIdx);
-                if (error != null) {
-                    yield objectMapper.valueToTree(
-                            CardPlacementError.init(handIdx, error));
-                }
-                yield null;
-            }
-            case "cardUsesAttack" -> {
-                String error = currGame.cardUsesAttack(cardAttacker, cardAttacked);
-                if (error != null) {
-                    yield objectMapper.valueToTree(
-                            AttackError.init(command, error));
-                }
-                yield null;
-            }
-            case "cardUsesAbility" -> {
-                String error = currGame.cardUsesAbility(cardAttacker, cardAttacked);
-                if (error != null) {
-                    yield objectMapper.valueToTree(
-                            AttackError.init(command, error));
-                }
-                yield null;
-            }
-            case "useAttackHero" -> {
-                String status = currGame.useAttackOnHero(cardAttacker);
-                if (status != null) {
-                    if (status.equals("Game ended")) {
-                        currGame.currPlayerWon();
-                        yield objectMapper.valueToTree(
-                                EndGameOutput.init(currGame.getCurrPlayer()));
-                    } else {
-                        yield objectMapper.valueToTree(
-                                AttackHeroError.init(command, cardAttacker, status));
-                    }
-                }
-                yield null;
-            }
-            case "useHeroAbility" -> {
-                String error = currGame.useHeroAbility(affectedRow);
-                if (error != null) {
-                    yield objectMapper.valueToTree(
-                            HeroAbilityError.init(command, affectedRow, error));
-                }
-                yield null;
-            }
-            default -> {
-                yield null;
-            }
-        };
-
-        if (newNode != null) {
-            output.add(newNode);
-        }
-    }
-
-
 }

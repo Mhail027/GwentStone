@@ -1,6 +1,6 @@
 package output.errors;
 
-import gameprogress.Coordinates;
+import input.Coordinates;
 
 public final class AttackHeroError {
     private static AttackHeroError instance;
@@ -13,7 +13,7 @@ public final class AttackHeroError {
     }
 
     /**
-     * Make sure that this class is SingleTone.
+     * Make sure that this class is Singleton.
      */
     public static AttackHeroError getInstance() {
         if (instance == null) {
@@ -24,7 +24,7 @@ public final class AttackHeroError {
     }
 
     /**
-     * Alternative to a constructor, without to break SingleTone rules.
+     * Alternative to a constructor, without to break Singleton rules.
      */
     public static AttackHeroError init(final String command, final Coordinates cardAttacker,
                                        final String error) {

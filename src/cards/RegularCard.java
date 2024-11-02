@@ -2,16 +2,16 @@ package cards;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public final class GameCard extends Card {
+public final class RegularCard extends Card {
     private int attackDamage;
 
     @JsonIgnore
     private boolean frozen = false;
 
-    public GameCard() {
+    public RegularCard() {
     }
 
-    public GameCard(final GameCard card) {
+    public RegularCard(final RegularCard card) {
         super(card);
         attackDamage = card.attackDamage;
         frozen = card.frozen;
@@ -32,9 +32,40 @@ public final class GameCard extends Card {
     }
 
     /**
+     * Verify if a card is a tank.
+     *
+     * @return true, if the card is a tank
+     *         false, in contrary case
+     */
+    @JsonIgnore
+    public boolean isTank() {
+        for (String tank : Constants.TANKS) {
+            if (name.equals(tank)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Verify if a card is special.
+     * @return true, if the card is special
+     *         false, in contrary case
+     */
+    @JsonIgnore
+    public boolean isSpecial() {
+        for (String specialCard : Constants.SPECIAL_CARDS) {
+            if (name.equals(specialCard)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Disciple uses his ability of adding +2 at health of a card.
      */
-    public void useDiscipleAbility(final GameCard card) {
+    public void useDiscipleAbility(final RegularCard card) {
         // Verify if it's Disciple.
         if (!name.equals("Disciple")) {
             return;
@@ -49,7 +80,7 @@ public final class GameCard extends Card {
      * The Ripper uses his ability of decreasing with 2 the attackDamage
      * of a card. Negative attack damage is considered 0.
      */
-    public void useTheRipperAbility(final GameCard card) {
+    public void useTheRipperAbility(final RegularCard card) {
         // Verify if it's The Ripper.
         if (!name.equals("The Ripper")) {
             return;
@@ -67,7 +98,7 @@ public final class GameCard extends Card {
      * Miraj uses his ability of swapping his health value with
      * one of other card.
      */
-    public void useMirajAbility(final GameCard card) {
+    public void useMirajAbility(final RegularCard card) {
         // Verify if it's Miraj.
         if (!name.equals("Miraj")) {
             return;
@@ -84,7 +115,7 @@ public final class GameCard extends Card {
      * The Cursed One uses his ability of swapping the attack damage
      * and the health, between them, for a card.
      */
-    public void useTheCursedOneAbility(final GameCard card) {
+    public void useTheCursedOneAbility(final RegularCard card) {
         // Verify if it's The Cursed One.
         if (!name.equals("The Cursed One")) {
             return;
