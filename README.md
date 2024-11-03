@@ -1,7 +1,7 @@
 # <p align="center"> Homework OOP  - GwentStone
 <br>
 
-<div style="display: flex">
+<div style="display: flex; align-items: center">
   <img src="media/messi_greets.gif" alt=" Messi greets with his hand." style="max-width: 400px; margin-right: 20px;" />
   <div style="font-size: 16px;">
         &emsp; Bună! Hello! Bonjour! Hola! Olá! This document explains the implementation of an invented game "GwentStone",
