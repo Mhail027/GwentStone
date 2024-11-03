@@ -3,7 +3,7 @@ package output;
 public final class TableCardOutput {
     private static TableCardOutput instance;
 
-    private final String command = "getCardAtPosition";
+    private static final String COMMAND = "getCardAtPosition";
     private int x;
     private int y;
     private Object output;
@@ -38,7 +38,7 @@ public final class TableCardOutput {
     }
 
     public String getCommand() {
-        return command;
+        return COMMAND;
     }
 
     public int getX() {

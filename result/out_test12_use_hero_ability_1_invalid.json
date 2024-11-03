@@ -1,5 +1,4 @@
 [ {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -9,9 +8,9 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -21,12 +20,12 @@
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -36,9 +35,9 @@
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -48,7 +47,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "useHeroAbility",
   "affectedRow" : 3,

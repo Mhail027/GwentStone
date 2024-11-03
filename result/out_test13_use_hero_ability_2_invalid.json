@@ -1,5 +1,4 @@
 [ {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -9,9 +8,9 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -21,7 +20,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "useHeroAbility",
   "affectedRow" : 1,
@@ -34,7 +34,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -44,9 +43,9 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -56,7 +55,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "useHeroAbility",
   "affectedRow" : 2,

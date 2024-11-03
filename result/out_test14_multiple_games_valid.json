@@ -15,7 +15,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -25,7 +24,8 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 4
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -51,7 +51,6 @@
   "playerIdx" : 2,
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -61,7 +60,8 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 4
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -73,7 +73,6 @@
   "playerIdx" : 1,
   "output" : 4
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -83,7 +82,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -98,7 +98,6 @@
   "playerIdx" : 2,
   "output" : 8
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -108,12 +107,12 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -123,12 +122,12 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -138,13 +137,13 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
   "output" : 15
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -154,7 +153,8 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 4
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -166,7 +166,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -176,7 +175,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -188,7 +188,6 @@
   "playerIdx" : 1,
   "output" : 18
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -198,7 +197,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
@@ -236,7 +236,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -246,7 +245,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -398,7 +398,6 @@
   "playerIdx" : 1,
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -408,7 +407,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
@@ -416,7 +416,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -426,7 +425,8 @@
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -434,7 +434,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -444,7 +443,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -456,7 +456,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -466,7 +465,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -477,7 +477,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -487,12 +486,12 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -502,7 +501,8 @@
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -510,7 +510,6 @@
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -520,12 +519,12 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -535,7 +534,8 @@
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -577,7 +577,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -587,7 +586,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -606,7 +606,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -616,9 +615,9 @@
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -628,9 +627,9 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -640,7 +639,8 @@
     "colors" : [ "Red", "Black" ],
     "name" : "Miraj",
     "attackDamage" : 3
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -652,7 +652,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -662,7 +661,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -684,7 +684,6 @@
   "playerIdx" : 1,
   "output" : 47
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -694,7 +693,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]

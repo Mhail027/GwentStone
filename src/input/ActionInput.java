@@ -95,18 +95,12 @@ public final class ActionInput {
                 yield objectMapper.valueToTree(
                         GameStatOutput.init(command, frozenCards));
             }
-            case "getPlayerOneWins" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getPlayerOneWins()));
-            }
-            case "getPlayerTwoWins" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getPlayerTwoWins()));
-            }
-            case "getTotalGamesPlayed" -> {
-                yield objectMapper.valueToTree(
-                        GameStatOutput.init(command, currGame.getGamesPlayed()));
-            }
+            case "getPlayerOneWins" -> objectMapper.valueToTree(
+                    GameStatOutput.init(command, currGame.getPlayerOneWins()));
+            case "getPlayerTwoWins" -> objectMapper.valueToTree(
+                    GameStatOutput.init(command, currGame.getPlayerTwoWins()));
+            case "getTotalGamesPlayed" -> objectMapper.valueToTree(
+                    GameStatOutput.init(command, currGame.getGamesPlayed()));
             default -> null;
         };
 
@@ -175,9 +169,7 @@ public final class ActionInput {
                 }
                 yield null;
             }
-            default -> {
-                yield null;
-            }
+            default -> null;
         };
 
         if (newNode != null) {

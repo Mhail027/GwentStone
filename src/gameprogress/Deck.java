@@ -12,6 +12,7 @@ public final class Deck {
 
     /**
      * This constructor is based on deep copy.
+     *
      * @param cards list with cards of the deck
      */
     public Deck(final ArrayList<RegularCard> cards) {
@@ -27,6 +28,7 @@ public final class Deck {
 
     /**
      * Verify if the deck has cards.
+     *
      * @return true, if it has
      *         false, in contrary case
      */
@@ -44,6 +46,7 @@ public final class Deck {
 
     /**
      * Get a card from the deck, without to remove it.
+     *
      * @param idx the position of the card in the list
      * @return the card
      */
@@ -56,6 +59,7 @@ public final class Deck {
 
     /**
      * Remove a card from the deck.
+     *
      * @param idx the position of the card in list
      */
     public void removeCard(final int idx) {
@@ -68,6 +72,7 @@ public final class Deck {
 
     /**
      * Get a card from the deck and after remove it from there.
+     *
      * @param idx the position of the card in list
      * @return the card
      */

@@ -4,7 +4,7 @@ import cards.HeroCard;
 import cards.RegularCard;
 
 public final class Player {
-    private int idx;
+    private final int idx;
     private int mana;
     private final Deck handDeck;
     private final Deck tableDeck;
@@ -20,6 +20,8 @@ public final class Player {
 
     /**
      * The player receives mana.
+     *
+     * @param receivedMana the mana which he receives it
      */
     public void receivesMana(final int receivedMana) {
         this.mana += receivedMana;
@@ -27,6 +29,8 @@ public final class Player {
 
     /**
      * The player spends mana.
+     *
+     * @param usedMana the mana which he uses it
      */
     public void usesMana(final int usedMana) {
         this.mana -= usedMana;
@@ -34,6 +38,7 @@ public final class Player {
 
     /**
      * Verify if a player has tanks.
+     *
      * @return true, if the player has tanks
      *         false, in contrary case
      */

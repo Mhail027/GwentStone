@@ -22,7 +22,6 @@
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -32,12 +31,12 @@
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -47,13 +46,13 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "useHeroAbility",
   "affectedRow" : 0,
   "error" : "Not enough mana to use hero's ability."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -63,13 +62,13 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
   "output" : 0
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -79,7 +78,8 @@
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
@@ -112,7 +112,6 @@
   "affectedRow" : 0,
   "error" : "Selected row does not belong to the current player."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -122,7 +121,8 @@
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker",
     "attackDamage" : 2
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]

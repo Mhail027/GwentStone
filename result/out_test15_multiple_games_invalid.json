@@ -9,7 +9,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -19,7 +18,8 @@
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath",
     "attackDamage" : 4
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
@@ -39,7 +39,6 @@
   "playerIdx" : 1,
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -49,7 +48,8 @@
     "colors" : [ "Black", "White" ],
     "name" : "Sentinel",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "useHeroAbility",
   "affectedRow" : 2,
@@ -61,7 +61,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -71,7 +70,8 @@
     "colors" : [ "Black", "Grey", "Blue" ],
     "name" : "Sentinel",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -80,7 +80,6 @@
   "playerIdx" : 1,
   "output" : 3
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -90,7 +89,8 @@
     "colors" : [ "Black", "White" ],
     "name" : "Sentinel",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -102,7 +102,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -112,9 +111,9 @@
     "colors" : [ "Black", "Grey", "Blue" ],
     "name" : "Sentinel",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -124,7 +123,8 @@
     "colors" : [ "Black", "White" ],
     "name" : "Sentinel",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ {
@@ -165,7 +165,6 @@
   },
   "error" : "Attacked card is not of type 'Tank'."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -175,7 +174,8 @@
     "colors" : [ "Black", "White" ],
     "name" : "Sentinel",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -187,7 +187,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -197,7 +196,8 @@
     "colors" : [ "Orange", "Red", "Black" ],
     "name" : "The Ripper",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "gameEnded" : "Player one killed the enemy hero."
 }, {
@@ -315,7 +315,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -325,7 +324,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -333,7 +333,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -343,7 +342,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -355,7 +355,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -365,7 +364,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
@@ -377,7 +377,6 @@
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -387,7 +386,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -407,7 +407,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -417,7 +416,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -429,7 +429,6 @@
   "playerIdx" : 1,
   "output" : 8
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -439,7 +438,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "cardUsesAbility",
   "cardAttacked" : {
@@ -452,7 +452,6 @@
   },
   "error" : "Attacked card does not belong to the current player."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -462,9 +461,9 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -474,7 +473,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -488,7 +488,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -498,7 +497,8 @@
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden",
     "attackDamage" : 7
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -517,7 +517,6 @@
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -527,7 +526,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -546,7 +546,6 @@
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -556,7 +555,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "cardUsesAbility",
   "cardAttacked" : {
@@ -569,7 +569,6 @@
   },
   "error" : "Attacked card does not belong to the enemy."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -579,7 +578,8 @@
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden",
     "attackDamage" : 7
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
@@ -595,7 +595,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -605,7 +604,8 @@
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden",
     "attackDamage" : 7
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
@@ -625,7 +625,6 @@
   },
   "error" : "Attacker card has already attacked this turn."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -635,7 +634,8 @@
     "colors" : [ "Pink", "Purple" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
@@ -648,7 +648,6 @@
   },
   "error" : "Attacked card is not of type 'Tank'."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -658,7 +657,8 @@
     "colors" : [ "Brown", "Blue" ],
     "name" : "Warden",
     "attackDamage" : 7
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 2
@@ -680,7 +680,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -690,7 +689,8 @@
     "colors" : [ "Pink", "Purple" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]
@@ -698,7 +698,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 2,
   "y" : 0,
   "output" : {
@@ -708,12 +707,12 @@
     "colors" : [ "Black", "Yellow" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -723,7 +722,8 @@
     "colors" : [ "Pink", "Purple" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "gameEnded" : "Player two killed the enemy hero."
 }, {

@@ -47,6 +47,7 @@ public final class GameTable {
 
     /**
      * Find the card from a specified position.
+     *
      * @param card coordinates of the card
      * @return the card
      */
@@ -69,6 +70,8 @@ public final class GameTable {
     }
 
     /**
+     * Get a row from the table
+     *
      * @param rowIdx the row's number
      * @return the row
      */

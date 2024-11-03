@@ -24,7 +24,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -34,9 +33,9 @@
     "colors" : [ "Black", "White", "Red" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -46,7 +45,8 @@
     "colors" : [ "Black", "White", "Red" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
@@ -93,7 +93,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 0,
   "output" : {
@@ -103,9 +102,9 @@
     "colors" : [ "Black", "White", "Red" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 0,
   "y" : 2,
   "output" : {
@@ -115,7 +114,8 @@
     "colors" : [ "Pink", "Purple" ],
     "name" : "The Cursed One",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,

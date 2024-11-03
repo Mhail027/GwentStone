@@ -3,7 +3,7 @@ package output.errors;
 public final class CardPlacementError {
     private static CardPlacementError instance;
 
-    private final String command = "placeCard";
+    private static final String COMMAND = "placeCard";
     private int handIdx;
     private String error;
 
@@ -34,7 +34,7 @@ public final class CardPlacementError {
     }
 
     public String getCommand() {
-        return command;
+        return COMMAND;
     }
 
     public int getHandIdx() {

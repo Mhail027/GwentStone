@@ -13,7 +13,6 @@
   },
   "error" : "Attacker card has already attacked this turn."
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -23,7 +22,8 @@
     "colors" : [ "Black", "Grey", "Blue" ],
     "name" : "Sentinel",
     "attackDamage" : 5
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,
@@ -63,7 +63,6 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -73,7 +72,8 @@
     "colors" : [ "Red", "Purple" ],
     "name" : "Goliath",
     "attackDamage" : 4
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getPlayerHero",
   "playerIdx" : 1,

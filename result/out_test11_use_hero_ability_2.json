@@ -1,5 +1,4 @@
 [ {
-  "command" : "getCardAtPosition",
   "x" : 1,
   "y" : 0,
   "output" : {
@@ -9,9 +8,9 @@
     "colors" : [ "Black", "Yellow" ],
     "name" : "The Ripper",
     "attackDamage" : 6
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
-  "command" : "getCardAtPosition",
   "x" : 3,
   "y" : 0,
   "output" : {
@@ -21,7 +20,8 @@
     "colors" : [ "Green", "Yellow", "Blue" ],
     "name" : "Disciple",
     "attackDamage" : 0
-  }
+  },
+  "command" : "getCardAtPosition"
 }, {
   "command" : "getFrozenCardsOnTable",
   "output" : [ ]

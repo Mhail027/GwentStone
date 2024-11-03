@@ -221,6 +221,10 @@ public final class Game {
         // Take the attacked card.
         RegularCard attackedCard = table.getCard(attacked);
 
+        // Verify if the cards could have been found.
+        if (attackerCard == null || attackedCard == null) {
+            return Constants.INVALID_COORDINATES_ERROR;
+        }
         // Verify if the card didn't attack already in this round.
         if (attackerCard.isUsedAttack()) {
             return Constants.CARD_ALREADY_ATTACKED_ERROR;
@@ -341,6 +345,10 @@ public final class Game {
         // Get the hero of the opponent.
         HeroCard opponentHero = players[getOpponentIdx()].getHero();
 
+        // Verify if the card could have been found.
+        if (attackerCard == null) {
+            return Constants.INVALID_COORDINATES_ERROR;
+        }
         // Verify if the attacker is not frozen.
         if (attackerCard.isFrozen()) {
             return Constants.CARD_IS_FROZEN_ERROR;
