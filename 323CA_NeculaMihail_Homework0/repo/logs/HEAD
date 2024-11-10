@@ -1,0 +1,16 @@
+0000000000000000000000000000000000000000 a36fe27c143efbf6fa6a3319fd63a9f67a40a12b Mhail027 <mihail.necula@stud.acs.upb.ro> 1729954599 +0300	clone: from github.com:Mhail027/oop-assigment.git
+a36fe27c143efbf6fa6a3319fd63a9f67a40a12b 553f2a72ed869dc2911c469819ba9567264850ec Mhail027 <mihail.necula@stud.acs.upb.ro> 1729969948 +0300	commit: Restructurate package fileio + Create package cards + Create package gameprogress + Create package cards + Add the functionality for first test
+553f2a72ed869dc2911c469819ba9567264850ec ccf1b11cc52542408495da516cffd3c8a103abb3 Mhail027 <mihail.necula@stud.acs.upb.ro> 1729983827 +0300	commit: Resolve coding style errors + Make some classes SingleTones
+ccf1b11cc52542408495da516cffd3c8a103abb3 b76aa88ae55f704d04e6edd980e5d6ac563cb67c Mhail027 <mihail.necula@stud.acs.upb.ro> 1730025523 +0200	commit: Add the functionality to place cards on table
+b76aa88ae55f704d04e6edd980e5d6ac563cb67c 6ea68a83397fefc882b73c353d0a4a62e01e339d Mhail027 <mihail.necula@stud.acs.upb.ro> 1730043903 +0200	commit: Add atacks between card + Restructurate package output
+6ea68a83397fefc882b73c353d0a4a62e01e339d 57e655d72cbfaaf35a7d13fb97f118873bb58665 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730054931 +0200	commit: The cards from table can use their abilities.
+57e655d72cbfaaf35a7d13fb97f118873bb58665 843adfd4011c2bb5953e22b07b96df476f9d5653 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730063348 +0200	commit: Heroes can use their abilities
+843adfd4011c2bb5953e22b07b96df476f9d5653 f777f67ca7cb96fbdae62310c55c4b1fba096828 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730073706 +0200	commit: Resolve some coding style errors.
+f777f67ca7cb96fbdae62310c55c4b1fba096828 2d10e7eccf3b3ea28ce9fef8779d3d01de715b44 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730124892 +0200	commit: Restructurate the code
+2d10e7eccf3b3ea28ce9fef8779d3d01de715b44 a12722af4c7e0d9af937f910ddc9829933e6db6a Mhail027 <mihail.necula@stud.acs.upb.ro> 1730129772 +0200	commit: Add the stats about the games played
+a12722af4c7e0d9af937f910ddc9829933e6db6a a72ad3dbdd6a2beac527800f0ed828521476c2ad Mhail027 <mihail.necula@stud.acs.upb.ro> 1730129812 +0200	commit (amend): Add the stats about the games played
+a72ad3dbdd6a2beac527800f0ed828521476c2ad e6c85dc68fcd45b2881c16f6d8ab366a570ff882 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730565049 +0200	commit: Restructurate the classes.
+e6c85dc68fcd45b2881c16f6d8ab366a570ff882 f09b4ac924187d6124df03bf2099dbab9a48898e Mhail027 <mihail.necula@stud.acs.upb.ro> 1730621475 +0200	commit: Add README
+f09b4ac924187d6124df03bf2099dbab9a48898e dfad5d8d57a55dee055672ed99f6fd1d8bb99489 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730626571 +0200	commit: Try to resolve how README displays on github
+dfad5d8d57a55dee055672ed99f6fd1d8bb99489 7d490c3ad86b049637092fb871e997772cc94bb0 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730627181 +0200	commit: Convert README from md to html
+7d490c3ad86b049637092fb871e997772cc94bb0 16c4a3a6bd5983ed7eb9e2262138ddc63fbd6025 Mhail027 <mihail.necula@stud.acs.upb.ro> 1730627392 +0200	commit: Chanage README back to md format
